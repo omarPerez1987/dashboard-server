@@ -1,11 +1,7 @@
-import express, { Express, Request, Response } from "express";
-import routes from './routes';
+import express, { Express } from "express";
+import routes from "./routes";
 
 const app: Express = express();
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World");
-});
 
 // Routes
 app.use(routes);
