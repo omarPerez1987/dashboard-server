@@ -3,6 +3,8 @@ import routes from "./routes";
 
 const app: Express = express();
 
+app.use(express.json());
+
 // Routes
 app.use(routes);
 
