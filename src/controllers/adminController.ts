@@ -3,7 +3,7 @@ import { generateAccessToken } from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const adminToken = generateAccessToken(email, password);
