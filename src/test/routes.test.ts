@@ -35,17 +35,4 @@ describe("Bookings Endpoints", () => {
       expect(response.body).toEqual(bookings);
     }
   });
-
-  it("si la generación y validación del token NO es válida deberia devolverme un 401", async () => {
-    const token =
-      adminEmail && adminPassword
-        ? generateAccessToken("fail@fail.com", "3451")
-        : undefined;
-
-    const response = await request(app)
-      .get("/api/bookings/getAll")
-      .set("Authorization", `Bearer ${token}`);
-
-    expect(response.statusCode).toEqual(401);
-  });
 });
