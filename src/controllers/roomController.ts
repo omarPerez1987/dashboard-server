@@ -14,7 +14,7 @@ router.get("/getAll", async (req: Request, res: Response) => {
   res.send(rooms);
 });
 
-router.post("/post", async (req: Request, res: Response) => {
+router.post("/post/:id", async (req: Request, res: Response) => {
   const room = await postRooms();
   res.json(room);
 });

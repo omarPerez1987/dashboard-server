@@ -10,7 +10,7 @@ router.get("/getAll", async (req: Request, res: Response) => {
   res.send(bookings);
 });
 
-router.post("/post", async (req: Request, res: Response) => {
+router.post("/post/:id", async (req: Request, res: Response) => {
   const booking = await postBookings();
   res.json(booking);
 });

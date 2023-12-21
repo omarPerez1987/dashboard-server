@@ -9,7 +9,7 @@ router.get("/getAll", async (req: Request, res: Response) => {
   res.send(users);
 });
 
-router.post("/post", async (req: Request, res: Response) => {
+router.post("/post/:id", async (req: Request, res: Response) => {
   const user = await postUsers();
   res.json(user);
 });
