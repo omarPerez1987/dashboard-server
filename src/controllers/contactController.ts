@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/getAll", async (req: Request, res: Response) => {
   const contacts: ContactModel[] = await getContacts();
   res.send(contacts);
 });

@@ -5,6 +5,8 @@ const router = Router();
 
 router.post("/", (req: Request, res: Response) => {
   const { email, password } = req.body;
+  console.log(email)
+
 
   const adminToken = generateAccessToken(email, password);
 

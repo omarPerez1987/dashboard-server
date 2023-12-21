@@ -5,7 +5,7 @@ import { deleteContacts, putContacts } from "../services/contactService";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/getAll", async (req: Request, res: Response) => {
   const bookings: BookingModel[] = await getBookings();
   res.send(bookings);
 });

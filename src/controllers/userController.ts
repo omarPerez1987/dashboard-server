@@ -4,7 +4,7 @@ import { deleteUsers, getUsers, postUsers, putUsers } from "../services/userServ
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/getAll", async (req: Request, res: Response) => {
   const users: UserModel[] = await getUsers();
   res.send(users);
 });

@@ -2,7 +2,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { AdminModel } from "../models/adminModel";
 
 dotenv.config();
 
@@ -14,13 +13,11 @@ export const generateAccessToken = (
   email: string,
   password: string
 ): string | null => {
-
   if (email === adminEmail && password === adminPassword) {
     return jwt.sign({ email }, secretKey, { expiresIn: "12h" });
   }
   return null;
 };
-
 
 interface AuthenticatedRequest extends Request {
   user?: any;
@@ -35,10 +32,10 @@ export const authenticateToken = (
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null)
-    return res.sendStatus(401).send("Unauthorized: Missing token");
+    return res.sendStatus(401).json({ error: "Unauthorized: Missing token" });
 
   jwt.verify(token, secretKey, (err: any, user: any) => {
-    if (err) return res.sendStatus(403).send("Invalid token");
+    if (err) return res.sendStatus(401).json({ error: "Invalid token" });
     req.user = user;
     next();
   });
