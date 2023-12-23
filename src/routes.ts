@@ -12,7 +12,7 @@ const router = Router();
 router.use("/api/login", adminController);
 
 // Rutas para Bookings
-router.use("/api/bookings", bookingController);
+router.use("/api/bookings", authMiddleware, bookingController);
 
 // Rutas para Contacts
 router.use("/api/contacts", authMiddleware, contactController);
