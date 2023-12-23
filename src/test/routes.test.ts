@@ -1,7 +1,7 @@
 import app from "../app";
 import request from "supertest";
-import { generateAccessToken } from "../middleware/authMiddleware";
 import { getBookings } from "../services/bookingService";
+import { generateAccessToken } from "../services/adminServices";
 
 const adminEmail = process.env.ADMIN_EMAIL;
 const adminPassword = process.env.ADMIN_PASSWORD;

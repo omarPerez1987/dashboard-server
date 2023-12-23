@@ -1,32 +1,37 @@
 import { Router, Request, Response } from "express";
 import { RoomModel } from "../models/roomModel";
 import {
-  deleteRooms,
+  deleteRoom,
+  getRoom,
   getRooms,
-  postRooms,
-  putRooms,
+  postRoom,
+  putRoom,
 } from "../services/roomService";
 
 const router = Router();
 
-router.get("/getAll", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   const rooms: RoomModel[] = await getRooms();
-  res.send(rooms);
+  res.json({ rooms });
+});
+router.get("/:id", async (req: Request, res: Response) => {
+  const room = await getRoom(req, res);
+  res.json({ room });
 });
 
-router.post("/post/:id", async (req: Request, res: Response) => {
-  const room = await postRooms();
-  res.json(room);
+router.post("/:id", async (req: Request, res: Response) => {
+  const room = await postRoom(req, res);
+  res.json({ room });
 });
 
-router.put("/put/:id", async (req: Request, res: Response) => {
-  const room = await putRooms();
-  res.send(room);
+router.put("/:id", async (req: Request, res: Response) => {
+  const room = await putRoom(req, res);
+  res.json({ room });
 });
 
-router.delete("/delete/:id", async (req: Request, res: Response) => {
-  const room = await deleteRooms();
-  res.send(room);
+router.delete("/:id", async (req: Request, res: Response) => {
+  const room = await deleteRoom(req, res);
+  res.json({ room });
 });
 
 export default router;

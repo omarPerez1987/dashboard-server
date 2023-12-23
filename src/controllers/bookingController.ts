@@ -1,28 +1,38 @@
 import { Router, Request, Response } from "express";
 import { BookingModel } from "../models/bookingModel";
-import { getBookings, postBookings } from "../services/bookingService";
-import { deleteContacts, putContacts } from "../services/contactService";
+import {
+  deleteBooking,
+  getBooking,
+  getBookings,
+  postBooking,
+  putBooking,
+} from "../services/bookingService";
 
 const router = Router();
 
-router.get("/getAll", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   const bookings: BookingModel[] = await getBookings();
-  res.send(bookings);
+  res.json({ bookings });
 });
 
-router.post("/post/:id", async (req: Request, res: Response) => {
-  const booking = await postBookings();
-  res.json(booking);
+router.get("/:id", async (req: Request, res: Response) => {
+  const booking = await getBooking(req, res);
+  res.json({booking});
 });
 
-router.put("/put/:id", async (req: Request, res: Response) => {
-  const booking = await putContacts();
-  res.send(booking);
+router.post("/:id", async (req: Request, res: Response) => {
+  const booking = await postBooking(req, res);
+  res.json({ booking });
 });
 
-router.delete("/delete/:id",async (req: Request, res: Response) => {
-  const booking = await deleteContacts();
-  res.send(booking);
+router.put("/:id", async (req: Request, res: Response) => {
+  const booking = await putBooking(req, res);
+  res.json({ booking });
+});
+
+router.delete("/:id", async (req: Request, res: Response) => {
+  const booking = await deleteBooking(req, res);
+  res.json({ booking });
 });
 
 export default router;

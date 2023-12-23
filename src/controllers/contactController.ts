@@ -1,32 +1,37 @@
 import { Router, Request, Response } from "express";
 import { ContactModel } from "../models/contactModel";
 import {
-  deleteContacts,
+  deleteContact,
+  getContact,
   getContacts,
-  postContacts,
-  putContacts,
+  postContact,
+  putContact,
 } from "../services/contactService";
 
 const router = Router();
 
-router.get("/getAll", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   const contacts: ContactModel[] = await getContacts();
-  res.send(contacts);
+  res.json({ contacts });
+});
+router.get("/:id", async (req: Request, res: Response) => {
+  const contact = await getContact(req, res);
+  res.json({ contact });
 });
 
-router.post("/post/:id", async (req: Request, res: Response) => {
-  const contact = await postContacts();
-  res.json(contact);
+router.post("/:id", async (req: Request, res: Response) => {
+  const contact = await postContact(req, res);
+  res.json({ contact });
 });
 
-router.put("/put/:id", async (req: Request, res: Response) => {
-  const contact = await putContacts();
-  res.send(contact);
+router.put("/:id", async (req: Request, res: Response) => {
+  const contact = await putContact(req, res);
+  res.json({ contact });
 });
 
-router.delete("/delete/:id", async (req: Request, res: Response) => {
-  const contact = await deleteContacts();
-  res.send(contact);
+router.delete("/:id", async (req: Request, res: Response) => {
+  const contact = await deleteContact(req, res);
+  res.json({ contact });
 });
 
 export default router;
