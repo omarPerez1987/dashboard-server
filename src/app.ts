@@ -1,8 +1,11 @@
 import express, { Express } from "express";
 import routes from "./routes";
+import { connectMongoDb } from "./config/mongodb";
 
 
 const app: Express = express();
+
+connectMongoDb()
 
 app.use(express.json());
 
