@@ -21,4 +21,4 @@ const userSchema = new Schema({
   startDate: String,
 });
 
-export const UserSchema = mongoose.model<UserModel>("Booking", userSchema);
+export const UserSchema = mongoose.model<UserModel>("users", userSchema);

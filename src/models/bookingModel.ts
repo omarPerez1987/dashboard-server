@@ -34,4 +34,4 @@ export interface BookingModel {
     check: String
   })
 
-  export const BookingSchema = mongoose.model<BookingModel>('Booking', bookingSchema)
+  export const BookingSchema = mongoose.model<BookingModel>('bookings', bookingSchema)

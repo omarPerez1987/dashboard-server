@@ -1,34 +1,55 @@
 import { Request, Response } from "express";
 import roomsData from "../JSON/rooms.json";
-import { RoomModel } from "../models/roomModel";
+import { RoomModel, RoomSchema } from "../models/roomModel";
 
 export const getRooms = async (): Promise<RoomModel[]> => {
-  return roomsData;
+  try {
+    return await RoomSchema.find().exec();
+  } catch (error) {
+    console.error("Error when obtaining rooms:", error);
+    throw error;
+  }
 };
-export const getRoom = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "Rooms find successfully" }];;
+
+export const getRoom = async (id: string): Promise<RoomModel | null> => {
+  try {
+    return await RoomSchema.findById(id).exec();
+  } catch (error) {
+    console.error("Error when obtaining room:", error);
+    throw error;
+  }
 };
 
 export const postRoom = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "Rooms create successfully" }];
+  body: RoomModel
+): Promise<RoomModel> => {
+  try {
+    const room = new RoomSchema(body);
+    return await room.save();
+  } catch (error) {
+    console.error("Error room were not saved:", error);
+    throw error;
+  }
 };
 
 export const putRoom = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "Rooms update successfully" }];
+  body: RoomModel
+): Promise<RoomModel | null> => {
+  try {
+    return await RoomSchema.findByIdAndUpdate(body.id, body);
+  } catch (error) {
+    console.error("Error room were not updated:", error);
+    throw error;
+  }
 };
 
 export const deleteRoom = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "Rooms deleted successfully" }];
+  id: string
+): Promise<RoomModel | null> => {
+  try {
+    return await RoomSchema.findOneAndDelete({ id: id });
+  } catch (error) {
+    console.error("Error al eliminar la reserva:", error);
+    throw error;
+  }
 };

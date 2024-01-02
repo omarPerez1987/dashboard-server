@@ -10,3 +10,4 @@ export const generateAccessToken = (
 ): string | null => {
   return jwt.sign({ email }, secretKey);
 };
+

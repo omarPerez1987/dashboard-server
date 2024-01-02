@@ -1,5 +1,4 @@
 import { BookingModel, BookingSchema } from "../models/bookingModel";
-import { Document } from "mongoose";
 
 export const getBookings = async (): Promise<BookingModel[]> => {
   try {
@@ -44,7 +43,7 @@ export const putBooking = async (
 
 export const deleteBooking = async (
   id: string
-): Promise<Document<BookingModel> | null> => {
+): Promise<BookingModel | null> => {
   try {
     return await BookingSchema.findOneAndDelete({ id: id });
   } catch (error) {

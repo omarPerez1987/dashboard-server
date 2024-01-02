@@ -23,4 +23,4 @@ const contactSchema = new Schema({
   review: String,
 });
 
-export const ContactSchema = mongoose.model<ContactModel>('Booking', contactSchema)
+export const ContactSchema = mongoose.model<ContactModel>('contacts', contactSchema)

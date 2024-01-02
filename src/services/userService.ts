@@ -1,31 +1,55 @@
 import { Request, Response } from "express";
 import usersData from "../JSON/users.json";
-import { UserModel } from "../models/userModel";
+import { UserModel, UserSchema } from "../models/userModel";
 
 export const getUsers = async (): Promise<UserModel[]> => {
-  return usersData;
+  try {
+    return await UserSchema.find().exec();
+  } catch (error) {
+    console.error("Error when obtaining users:", error);
+    throw error;
+  }
 };
-export const getUser = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "Users find successfully" }];
+
+export const getUser = async (id: string): Promise<UserModel | null> => {
+  try {
+    return await UserSchema.findById(id).exec();
+  } catch (error) {
+    console.error("Error when obtaining user:", error);
+    throw error;
+  }
 };
+
 export const postUser = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "Users create successfully" }];
+  body: UserModel
+): Promise<UserModel> => {
+  try {
+    const user = new UserSchema(body);
+    return await user.save();
+  } catch (error) {
+    console.error("Error user were not saved:", error);
+    throw error;
+  }
 };
+
 export const putUser = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "Users update successfully" }];
+  body: UserModel
+): Promise<UserModel | null> => {
+  try {
+    return await UserSchema.findByIdAndUpdate(body.id, body);
+  } catch (error) {
+    console.error("Error user were not updated:", error);
+    throw error;
+  }
 };
+
 export const deleteUser = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "Users deleted successfully" }];
-};
+  id: string
+): Promise<UserModel | null> => {
+  try {
+    return await UserSchema.findOneAndDelete({ id: id });
+  } catch (error) {
+    console.error("Error al eliminar la reserva:", error);
+    throw error;
+  }
+};;

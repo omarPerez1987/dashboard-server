@@ -11,27 +11,54 @@ import {
 const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  const rooms: RoomModel[] = await getRooms();
-  res.json({ rooms });
+  try {
+    const rooms: RoomModel[] = await getRooms();
+    res.json({ rooms });
+  } catch (error) {
+    console.error("Error in obtaining all rooms:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 router.get("/:id", async (req: Request, res: Response) => {
-  const room = await getRoom(req, res);
-  res.json({ room });
+  try {
+    const id = req.params.id;
+    const room = await getRoom(id);
+    res.json({ room });
+  } catch (error) {
+    console.error("Error in obtaining the room:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 router.post("/:id", async (req: Request, res: Response) => {
-  const room = await postRoom(req, res);
-  res.json({ room });
+  try {
+    const room = await postRoom(req.body);
+    res.json([{ success: "Room create success" }]);
+  } catch (error) {
+    console.error("Error creating room:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 router.put("/:id", async (req: Request, res: Response) => {
-  const room = await putRoom(req, res);
-  res.json({ room });
+  try {
+    const room = await putRoom(req.body);
+    res.json([{ success: "Room successfully updated" }]);
+  } catch (error) {
+    console.error("Error updating room:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 router.delete("/:id", async (req: Request, res: Response) => {
-  const room = await deleteRoom(req, res);
-  res.json({ room });
+  try {
+    const id = req.params.id;
+    const room = await deleteRoom(id);
+    res.json([{ success: "Room successfully deleted" }]);
+  } catch (error) {
+    console.error("Error deleting room:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 export default router;

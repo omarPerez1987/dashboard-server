@@ -7,9 +7,9 @@ export interface AdminModel {
 }
 
 const adminSchema = new Schema({
-  name: { type: String, required: true },
+  name: String,
   email: { type: String, required: true, unique: true },
-  password: String,
+  password: { type: String, required: true },
 });
 
-export const AdminSchema = mongoose.model<AdminModel>("Admin", adminSchema);
+export const AdminSchema = mongoose.model<AdminModel>("Admins", adminSchema);

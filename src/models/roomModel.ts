@@ -25,4 +25,4 @@ export interface RoomModel {
     status: String
   })
 
-  export const RoomSchema = mongoose.model<RoomModel>('Room', roomSchema)
+  export const RoomSchema = mongoose.model<RoomModel>('rooms', roomSchema)
