@@ -1,3 +1,5 @@
+import mongoose, { Schema } from "mongoose";
+
 export interface BookingModel {
     name: string;
     id: string;
@@ -17,3 +19,18 @@ export interface BookingModel {
     photo?: string | null;
     status?: string;
   }
+
+  const bookingSchema = new Schema ({
+    name: String,
+    orderDate: String,
+    orderTime: String,
+    checkin: String,
+    checkinTime: String,
+    checkout: String,
+    checkoutTime: String,
+    notes: String,
+    idRoom: String,
+    check: String
+  })
+
+  export const BookingSchema = mongoose.model<BookingModel>('Booking', bookingSchema)
