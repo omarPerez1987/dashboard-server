@@ -1,35 +1,54 @@
-import { Request, Response } from "express";
-import bookingsData from "../JSON/bookings.json";
-import { BookingModel } from "../models/bookingModel";
+import { BookingModel, BookingSchema } from "../models/bookingModel";
+import { Document } from "mongoose";
 
 export const getBookings = async (): Promise<BookingModel[]> => {
-  return bookingsData;
+  try {
+    return await BookingSchema.find().exec();
+  } catch (error) {
+    console.error("Error when obtaining bookings:", error);
+    throw error;
+  }
 };
 
-export const getBooking = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "booking find successfully" }];
+export const getBooking = async (id: string): Promise<BookingModel | null> => {
+  try {
+    return await BookingSchema.findById(id).exec();
+  } catch (error) {
+    console.error("Error when obtaining booking:", error);
+    throw error;
+  }
 };
 
 export const postBooking = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "booking create successfully" }];
+  body: BookingModel
+): Promise<BookingModel> => {
+  try {
+    const booking = new BookingSchema(body);
+    return await booking.save();
+  } catch (error) {
+    console.error("Error booking were not saved:", error);
+    throw error;
+  }
 };
 
 export const putBooking = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "booking update successfully" }];
+  body: BookingModel
+): Promise<BookingModel | null> => {
+  try {
+    return await BookingSchema.findByIdAndUpdate(body.id, body);
+  } catch (error) {
+    console.error("Error booking were not updated:", error);
+    throw error;
+  }
 };
 
 export const deleteBooking = async (
-  req: Request,
-  res: Response
-): Promise<Object[]> => {
-  return [{ success: "booking deleted successfully" }];
+  id: string
+): Promise<Document<BookingModel> | null> => {
+  try {
+    return await BookingSchema.findOneAndDelete({ id: id });
+  } catch (error) {
+    console.error("Error al eliminar la reserva:", error);
+    throw error;
+  }
 };

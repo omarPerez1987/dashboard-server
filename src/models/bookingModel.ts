@@ -22,6 +22,7 @@ export interface BookingModel {
 
   const bookingSchema = new Schema ({
     name: String,
+    id: String,
     orderDate: String,
     orderTime: String,
     checkin: String,
