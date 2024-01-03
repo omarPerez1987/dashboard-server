@@ -30,10 +30,10 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/:id", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
-    const room = await postRoom(req.body);
-    res.json([{ success: "Room create success" }]);
+    const room = await postRoom();
+    res.json([{ success: "Room create success", data: room }]);
   } catch (error) {
     console.error("Error creating room:", error);
     res.status(500).json({ error: "Internal Server Error" });

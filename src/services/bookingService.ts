@@ -1,4 +1,5 @@
 import { BookingModel, BookingSchema } from "../models/bookingModel";
+import { generateFakeBooking } from "../seeds/bookingsSeed";
 
 export const getBookings = async (): Promise<BookingModel[]> => {
   try {
@@ -11,21 +12,20 @@ export const getBookings = async (): Promise<BookingModel[]> => {
 
 export const getBooking = async (id: string): Promise<BookingModel | null> => {
   try {
-    return await BookingSchema.findById(id).exec();
+    return await BookingSchema.findById(id);
   } catch (error) {
     console.error("Error when obtaining booking:", error);
     throw error;
   }
 };
 
-export const postBooking = async (
-  body: BookingModel
-): Promise<BookingModel> => {
+export const postBooking = async (): Promise<BookingModel> => {
   try {
-    const booking = new BookingSchema(body);
+    const fakeBooking = generateFakeBooking();
+    const booking = new BookingSchema(fakeBooking);
     return await booking.save();
   } catch (error) {
-    console.error("Error booking were not saved:", error);
+    console.error("Error booking was not saved:", error);
     throw error;
   }
 };

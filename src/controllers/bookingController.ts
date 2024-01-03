@@ -31,10 +31,10 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/:id", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
-    const booking = await postBooking(req.body);
-    res.json([{ success: "Booking create success" }]);
+    const booking = await postBooking();
+    res.json([{ success: "Booking create success", data: booking }]);
   } catch (error) {
     console.error("Error creating booking:", error);
     res.status(500).json({ error: "Internal Server Error" });

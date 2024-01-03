@@ -30,10 +30,10 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/:id", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
-    const user = await postUser(req.body);
-    res.json([{ success: "user create success" }]);
+    const user = await postUser();
+    res.json([{ success: "user create success", data: user }]);
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ error: "Internal Server Error" });

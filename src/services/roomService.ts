@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import roomsData from "../JSON/rooms.json";
 import { RoomModel, RoomSchema } from "../models/roomModel";
+import { generateFakeRoom } from "../seeds/roomsSeed";
 
 export const getRooms = async (): Promise<RoomModel[]> => {
   try {
@@ -20,11 +21,10 @@ export const getRoom = async (id: string): Promise<RoomModel | null> => {
   }
 };
 
-export const postRoom = async (
-  body: RoomModel
-): Promise<RoomModel> => {
+export const postRoom = async (): Promise<RoomModel> => {
   try {
-    const room = new RoomSchema(body);
+    const fakeContact = generateFakeRoom();
+    const room = new RoomSchema(fakeContact);
     return await room.save();
   } catch (error) {
     console.error("Error room were not saved:", error);
@@ -32,9 +32,7 @@ export const postRoom = async (
   }
 };
 
-export const putRoom = async (
-  body: RoomModel
-): Promise<RoomModel | null> => {
+export const putRoom = async (body: RoomModel): Promise<RoomModel | null> => {
   try {
     return await RoomSchema.findByIdAndUpdate(body.id, body);
   } catch (error) {
@@ -43,9 +41,7 @@ export const putRoom = async (
   }
 };
 
-export const deleteRoom = async (
-  id: string
-): Promise<RoomModel | null> => {
+export const deleteRoom = async (id: string): Promise<RoomModel | null> => {
   try {
     return await RoomSchema.findOneAndDelete({ id: id });
   } catch (error) {

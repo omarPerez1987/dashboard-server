@@ -13,6 +13,7 @@ export interface ContactModel {
 }
 
 const contactSchema = new Schema({
+  id: String,
   date: String,
   hour: String,
   name: String,

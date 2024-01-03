@@ -8,7 +8,7 @@ const clusterDb= process.env.CLUSTER_DB
 
 export const connectMongoDb = async () => {
     try {
-        await mongoose.connect(`mongodb+srv://${userDb}:${passwordDb}@${collectionDb}.${clusterDb}.mongodb.net/`);
+        await mongoose.connect(`mongodb+srv://${userDb}:${passwordDb}@${collectionDb}.${clusterDb}.mongodb.net/dashboard-miranda`);
         console.log('*** Connection mongoDB success ***')
     } catch (error) {
         console.error('MongoDB connection error', error)

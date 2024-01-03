@@ -30,10 +30,10 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/:id", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
-    const contact = await postContact(req.body);
-    res.json([{ success: "Contact create success" }]);
+    const contact = await postContact();
+    res.json([{ success: "Contact create success", data: contact }]);
   } catch (error) {
     console.error("Error creating contact:", error);
     res.status(500).json({ error: "Internal Server Error" });

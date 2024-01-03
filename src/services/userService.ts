@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import usersData from "../JSON/users.json";
 import { UserModel, UserSchema } from "../models/userModel";
+import { generateFakeUser } from "../seeds/usersSeed";
 
 export const getUsers = async (): Promise<UserModel[]> => {
   try {
@@ -20,11 +21,10 @@ export const getUser = async (id: string): Promise<UserModel | null> => {
   }
 };
 
-export const postUser = async (
-  body: UserModel
-): Promise<UserModel> => {
+export const postUser = async (): Promise<UserModel> => {
   try {
-    const user = new UserSchema(body);
+    const fakeUser = generateFakeUser()
+    const user = new UserSchema(fakeUser);
     return await user.save();
   } catch (error) {
     console.error("Error user were not saved:", error);
@@ -32,9 +32,7 @@ export const postUser = async (
   }
 };
 
-export const putUser = async (
-  body: UserModel
-): Promise<UserModel | null> => {
+export const putUser = async (body: UserModel): Promise<UserModel | null> => {
   try {
     return await UserSchema.findByIdAndUpdate(body.id, body);
   } catch (error) {
@@ -43,13 +41,11 @@ export const putUser = async (
   }
 };
 
-export const deleteUser = async (
-  id: string
-): Promise<UserModel | null> => {
+export const deleteUser = async (id: string): Promise<UserModel | null> => {
   try {
     return await UserSchema.findOneAndDelete({ id: id });
   } catch (error) {
     console.error("Error al eliminar la reserva:", error);
     throw error;
   }
-};;
+};

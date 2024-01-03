@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import contactsData from "../JSON/contact.json";
 import { ContactModel, ContactSchema } from "../models/contactModel";
+import { generateFakeContact } from "../seeds/contactsSeed";
 
 export const getContacts = async (): Promise<ContactModel[]> => {
   try {
@@ -20,11 +21,10 @@ export const getContact = async (id: string): Promise<ContactModel | null> => {
   }
 };
 
-export const postContact = async (
-  body: ContactModel
-): Promise<ContactModel> => {
+export const postContact = async (): Promise<ContactModel> => {
   try {
-    const contact = new ContactSchema(body);
+    const fakeContact = generateFakeContact();
+    const contact = new ContactSchema(fakeContact);
     return await contact.save();
   } catch (error) {
     console.error("Error contact were not saved:", error);
