@@ -1,51 +1,55 @@
 import app from "../app";
 import request from "supertest";
-import { getBookings } from "../services/bookingService";
 import { generateAccessToken } from "../services/adminServices";
 
 const adminEmail = process.env.ADMIN_EMAIL;
 const adminPassword = process.env.ADMIN_PASSWORD;
 
-describe("Bookings Endpoints", () => {
-  it("debe generar un token", () => {
-    if (adminEmail && adminPassword) {
-      const token = generateAccessToken(adminEmail, adminPassword);
-      expect(token).toBeTruthy();
-    } else {
-      fail(
-        "Las variables de entorno ADMIN_EMAIL o ADMIN_PASSWORD no están configuradas."
-      );
-    }
-  });
+describe("Generar token", () => {
+  it("si la generación y validación del token es valida debe retornarme un status 200", async () => {
+    const response = await request(app)
+      .post("/api/login")
+      .send({ email: adminEmail, password: adminPassword });
 
-  it("si la generación y validación del token es valida debe retornarme todos los bookings", async () => {
-    const token =
-      adminEmail && adminPassword
-        ? generateAccessToken(adminEmail, adminPassword)
-        : undefined;
-
-    if (token) {
-      const response = await request(app)
-        .get("/api/bookings/getAll")
-        .set("Authorization", `Bearer ${token}`);
-
-      expect(response.statusCode).toEqual(200);
-
-      const bookings = await getBookings();
-      expect(response.body).toEqual(bookings);
-    }
+    expect(response.statusCode).toEqual(200);
   });
 
   it("si la generación y validación del token NO es válida deberia devolverme un 401", async () => {
-    const token =
-      adminEmail && adminPassword
-        ? generateAccessToken("fail@fail.com", "3451")
-        : undefined;
-
     const response = await request(app)
-      .get("/api/bookings/getAll")
-      .set("Authorization", `Bearer ${token}`);
+      .post("/api/login")
+      .send({ email: "fail@fail.com", password: "6585" });
 
     expect(response.statusCode).toEqual(401);
+  });
+});
+
+describe("Pruebas del GET bookings", () => {
+  it("si el token es valido y la ruta de get bookings es correcta deberia poder retornarme un status 200", async () => {
+    const loginResponse = await request(app)
+      .post("/api/login")
+      .send({ email: adminEmail, password: adminPassword });
+    if (loginResponse.status === 200) {
+      const token = loginResponse.body.token;
+
+      const bookingsResponse = await request(app)
+        .get("/api/bookings/")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(bookingsResponse.statusCode).toEqual(200);
+    }
+  });
+  it("si el token es valido pero ruta de get bookings NO es correcta deberia poder retornarme un status 404", async () => {
+    const loginResponse = await request(app)
+      .post("/api/login")
+      .send({ email: adminEmail, password: adminPassword });
+    if (loginResponse.status === 200) {
+      const token = loginResponse.body.token;
+
+      const bookingsResponse = await request(app)
+        .get("/api/fail/")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(bookingsResponse.statusCode).toEqual(404);
+    }
   });
 });

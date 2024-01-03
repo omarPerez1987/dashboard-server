@@ -54,7 +54,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     const room = await deleteRoom(id);
-    res.json([{ success: "Room successfully deleted" }]);
+    res.json([{ success: "Room successfully deleted"}]);
   } catch (error) {
     console.error("Error deleting room:", error);
     res.status(500).json({ error: "Internal Server Error" });

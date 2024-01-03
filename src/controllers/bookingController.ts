@@ -7,6 +7,7 @@ import {
   postBooking,
   putBooking,
 } from "../services/bookingService";
+import mongoose from "mongoose";
 
 const router = Router();
 
