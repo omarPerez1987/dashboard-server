@@ -14,7 +14,7 @@ provider:
   runtime: nodejs18.x
 functions:
   app:
-    handler: dist/lambda.handler
+    handler: ./lambda/handler
     events:
       - http:
           path: /

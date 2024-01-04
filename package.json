@@ -6,7 +6,6 @@
   "scripts": {
     "start": "nodemon src/app.ts",
     "test": "jest",
-    "build": "rimraf dist && tsc",
     "deploy": "serverless deploy",
     "remove": "serverless remove"
   },
