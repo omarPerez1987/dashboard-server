@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { ContactModel } from "../models/contactModel";
 import {
   deleteContact,
@@ -10,55 +10,53 @@ import {
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contacts: ContactModel[] = await getContacts();
     res.json({ contacts });
   } catch (error) {
-    console.error("Error in obtaining all contacts:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     const contact = await getContact(id);
     res.json({ contact });
   } catch (error) {
-    console.error("Error in obtaining the contact:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contact = await postContact();
-    res.json([{ success: "Contact create success", data: contact }]);
+    res.json({ success: "Contact create success", data: contact });
   } catch (error) {
-    console.error("Error creating contact:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.put("/:id", async (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contact = await putContact(req.body);
-    res.json([{ success: "Contact successfully updated" }]);
+    res.json({ success: "Contact successfully updated", data: contact });
   } catch (error) {
-    console.error("Error updating contact:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.delete("/:id", async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const contact = await deleteContact(id);
-    res.json([{ success: "Contact successfully deleted" }]);
-  } catch (error) {
-    console.error("Error deleting booking:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+router.delete(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id;
+      const contact = await deleteContact(id);
+      res.json({ success: "Contact successfully deleted", data: contact });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export default router;

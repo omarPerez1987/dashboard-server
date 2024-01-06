@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { BookingModel } from "../models/bookingModel";
 import {
   deleteBooking,
@@ -7,60 +7,57 @@ import {
   postBooking,
   putBooking,
 } from "../services/bookingService";
-import mongoose from "mongoose";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const bookings: BookingModel[] = await getBookings();
     res.json({ bookings });
   } catch (error) {
-    console.error("Error in obtaining all bookings:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = req.params.id;
-    const booking = await getBooking(id);
+    const _id = req.params.id;
+    const booking = await getBooking(_id);
     res.json({ booking });
   } catch (error) {
-    console.error("Error in obtaining the booking:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const booking = await postBooking();
-    res.json([{ success: "Booking create success", data: booking }]);
+    res.json({ success: "Booking create success", data: booking });
   } catch (error) {
-    console.error("Error creating booking:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.put("/:id", async (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const booking = await putBooking(req.body);
-    res.json([{ success: "Booking successfully updated" }]);
+    res.json({ success: "Booking successfully updated", data: booking });
   } catch (error) {
-    console.error("Error updating booking:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.delete("/:id", async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const booking = await deleteBooking(id);
-    res.json([{ success: "Booking successfully deleted" }]);
-  } catch (error) {
-    console.error("Error deleting booking:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+router.delete(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id;
+      const booking = await deleteBooking(id);
+      res.json({ success: "Booking successfully deleted", data: booking });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export default router;

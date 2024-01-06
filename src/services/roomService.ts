@@ -7,8 +7,12 @@ export const getRooms = async (): Promise<RoomModel[]> => {
   try {
     return await RoomSchema.find().exec();
   } catch (error) {
-    console.error("Error when obtaining rooms:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al obtener las habitaciones en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -16,8 +20,12 @@ export const getRoom = async (id: string): Promise<RoomModel | null> => {
   try {
     return await RoomSchema.findById(id).exec();
   } catch (error) {
-    console.error("Error when obtaining room:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al obtener la habitacion en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -27,8 +35,12 @@ export const postRoom = async (): Promise<RoomModel> => {
     const room = new RoomSchema(fakeContact);
     return await room.save();
   } catch (error) {
-    console.error("Error room were not saved:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al guardar la habitacion en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -36,8 +48,12 @@ export const putRoom = async (body: RoomModel): Promise<RoomModel | null> => {
   try {
     return await RoomSchema.findByIdAndUpdate(body.id, body);
   } catch (error) {
-    console.error("Error room were not updated:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al actualizar la habitacion en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -45,7 +61,11 @@ export const deleteRoom = async (id: string): Promise<RoomModel | null> => {
   try {
     return await RoomSchema.findOneAndDelete({ id: id });
   } catch (error) {
-    console.error("Error al eliminar la reserva:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al eliminar la habitacion en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };

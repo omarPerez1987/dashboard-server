@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { RoomModel } from "../models/roomModel";
 import {
   deleteRoom,
@@ -10,55 +10,53 @@ import {
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rooms: RoomModel[] = await getRooms();
     res.json({ rooms });
   } catch (error) {
-    console.error("Error in obtaining all rooms:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     const room = await getRoom(id);
     res.json({ room });
   } catch (error) {
-    console.error("Error in obtaining the room:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const room = await postRoom();
-    res.json([{ success: "Room create success", data: room }]);
+    res.json({ success: "Room create success", data: room });
   } catch (error) {
-    console.error("Error creating room:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.put("/:id", async (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const room = await putRoom(req.body);
-    res.json([{ success: "Room successfully updated" }]);
+    res.json({ success: "Room successfully updated", data: room });
   } catch (error) {
-    console.error("Error updating room:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 });
 
-router.delete("/:id", async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const room = await deleteRoom(id);
-    res.json([{ success: "Room successfully deleted"}]);
-  } catch (error) {
-    console.error("Error deleting room:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+router.delete(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id;
+      const room = await deleteRoom(id);
+      res.json({ success: "Room successfully deleted", data: room });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export default router;

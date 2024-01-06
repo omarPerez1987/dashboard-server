@@ -12,9 +12,11 @@ provider:
   name: aws
   region: eu-west-3
   runtime: nodejs18.x
+  httpApi:
+    cors: true
 functions:
   app:
-    handler: ./lambda/handler
+    handler: dist/lambda.handler
     events:
       - http:
           path: /

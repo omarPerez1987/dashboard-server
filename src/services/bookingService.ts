@@ -5,17 +5,25 @@ export const getBookings = async (): Promise<BookingModel[]> => {
   try {
     return await BookingSchema.find().exec();
   } catch (error) {
-    console.error("Error when obtaining bookings:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al obtener las reservas de la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
-export const getBooking = async (id: string): Promise<BookingModel | null> => {
+export const getBooking = async (_id: string): Promise<BookingModel | null> => {
   try {
-    return await BookingSchema.findById(id);
-  } catch (error) {
-    console.error("Error when obtaining booking:", error);
-    throw error;
+    return await BookingSchema.findById(_id);
+  } catch (error: any) {
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al obtener la reserva de la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -25,8 +33,12 @@ export const postBooking = async (): Promise<BookingModel> => {
     const booking = new BookingSchema(fakeBooking);
     return await booking.save();
   } catch (error) {
-    console.error("Error booking was not saved:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al guardar la reserva en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -36,8 +48,12 @@ export const putBooking = async (
   try {
     return await BookingSchema.findByIdAndUpdate(body.id, body);
   } catch (error) {
-    console.error("Error booking were not updated:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al actualizar la reserva en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -47,7 +63,11 @@ export const deleteBooking = async (
   try {
     return await BookingSchema.findOneAndDelete({ id: id });
   } catch (error) {
-    console.error("Error al eliminar la reserva:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al eliminar la reserva en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };

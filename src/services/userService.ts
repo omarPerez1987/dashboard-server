@@ -7,8 +7,12 @@ export const getUsers = async (): Promise<UserModel[]> => {
   try {
     return await UserSchema.find().exec();
   } catch (error) {
-    console.error("Error when obtaining users:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al obtener los usuarios en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -16,19 +20,27 @@ export const getUser = async (id: string): Promise<UserModel | null> => {
   try {
     return await UserSchema.findById(id).exec();
   } catch (error) {
-    console.error("Error when obtaining user:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al obtener el usuario en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
 export const postUser = async (): Promise<UserModel> => {
   try {
-    const fakeUser = generateFakeUser()
+    const fakeUser = generateFakeUser();
     const user = new UserSchema(fakeUser);
     return await user.save();
   } catch (error) {
-    console.error("Error user were not saved:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al guardar el usuario en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -36,8 +48,12 @@ export const putUser = async (body: UserModel): Promise<UserModel | null> => {
   try {
     return await UserSchema.findByIdAndUpdate(body.id, body);
   } catch (error) {
-    console.error("Error user were not updated:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al actualizar el usuario en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
 
@@ -45,7 +61,11 @@ export const deleteUser = async (id: string): Promise<UserModel | null> => {
   try {
     return await UserSchema.findOneAndDelete({ id: id });
   } catch (error) {
-    console.error("Error al eliminar la reserva:", error);
-    throw error;
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al eliminar el usuario en la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
   }
 };
