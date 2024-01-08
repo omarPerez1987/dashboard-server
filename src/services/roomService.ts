@@ -29,10 +29,9 @@ export const getRoom = async (id: string): Promise<RoomModel | null> => {
   }
 };
 
-export const postRoom = async (): Promise<RoomModel> => {
+export const postRoom = async (body: RoomModel): Promise<RoomModel> => {
   try {
-    const fakeContact = generateFakeRoom();
-    const room = new RoomSchema(fakeContact);
+    const room = new RoomSchema(body);
     return await room.save();
   } catch (error) {
     console.log(error);

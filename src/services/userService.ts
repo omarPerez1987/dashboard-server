@@ -29,10 +29,9 @@ export const getUser = async (id: string): Promise<UserModel | null> => {
   }
 };
 
-export const postUser = async (): Promise<UserModel> => {
+export const postUser = async (body: UserModel): Promise<UserModel> => {
   try {
-    const fakeUser = generateFakeUser();
-    const user = new UserSchema(fakeUser);
+    const user = new UserSchema(body);
     return await user.save();
   } catch (error) {
     console.log(error);

@@ -30,7 +30,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await postUser();
+    const user = await postUser(req.body);
     res.json({ success: "user create success", data: user });
   } catch (error) {
     next(error);

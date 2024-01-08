@@ -27,10 +27,11 @@ export const getBooking = async (id: string): Promise<BookingModel | null> => {
   }
 };
 
-export const postBooking = async (): Promise<BookingModel> => {
+export const postBooking = async (
+  body: BookingModel
+): Promise<BookingModel> => {
   try {
-    const fakeBooking = generateFakeBooking();
-    const booking = new BookingSchema(fakeBooking);
+    const booking = new BookingSchema(body);
     return await booking.save();
   } catch (error) {
     console.log(error);

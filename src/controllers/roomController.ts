@@ -30,7 +30,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const room = await postRoom();
+    const room = await postRoom(req.body);
     res.json({ success: "Room create success", data: room });
   } catch (error) {
     next(error);

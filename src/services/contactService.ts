@@ -29,10 +29,11 @@ export const getContact = async (id: string): Promise<ContactModel | null> => {
   }
 };
 
-export const postContact = async (): Promise<ContactModel> => {
+export const postContact = async (
+  body: ContactModel
+): Promise<ContactModel> => {
   try {
-    const fakeContact = generateFakeContact();
-    const contact = new ContactSchema(fakeContact);
+    const contact = new ContactSchema(body);
     return await contact.save();
   } catch (error) {
     console.log(error);

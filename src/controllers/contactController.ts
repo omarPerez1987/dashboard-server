@@ -30,7 +30,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const contact = await postContact();
+    const contact = await postContact(req.body);
     res.json({ success: "Contact create success", data: contact });
   } catch (error) {
     next(error);
