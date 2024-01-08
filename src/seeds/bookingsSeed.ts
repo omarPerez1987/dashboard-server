@@ -1,10 +1,11 @@
 import { faker } from "@faker-js/faker";
 import { BookingModel } from "../models/bookingModel";
+import mongoose from "mongoose";
 
 export const generateFakeBooking = (): BookingModel => {
   return {
+    _id: new mongoose.Types.ObjectId(),
     name: faker.person.fullName(),
-    id: faker.string.alphanumeric(7),
     orderDate: faker.date.past().toLocaleDateString(),
     orderTime: faker.date.past().toLocaleTimeString(),
     checkin: faker.date.future().toLocaleDateString(),
@@ -16,4 +17,3 @@ export const generateFakeBooking = (): BookingModel => {
     check: faker.helpers.arrayElement(["pending", "checked-in", "checked-out"]),
   };
 };
-

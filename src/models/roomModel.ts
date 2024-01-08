@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 export interface RoomModel {
-  id: string;
+  _id: mongoose.Types.ObjectId;
   photo: string | null;
   room: string;
   bed: string;
@@ -14,7 +14,7 @@ export interface RoomModel {
 }
 
 const roomSchema = new Schema({
-  id: String,
+  _id: mongoose.Schema.Types.ObjectId,
   photo: String || null,
   room: String,
   bed: String,

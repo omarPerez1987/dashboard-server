@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 export interface UserModel {
+  _id: mongoose.Types.ObjectId;
   photo: string;
-  id: string;
   name: string;
   email: string;
   phone: string;
@@ -12,6 +12,7 @@ export interface UserModel {
 }
 
 const userSchema = new Schema({
+  _id: mongoose.Schema.Types.ObjectId,
   photo: String,
   name: String,
   email: String,

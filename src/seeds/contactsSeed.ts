@@ -1,9 +1,10 @@
 import { faker } from "@faker-js/faker";
 import { ContactModel } from "../models/contactModel";
+import mongoose from "mongoose";
 
 export const generateFakeContact = (): ContactModel => {
   return {
-    id: faker.string.alphanumeric(7),
+    _id: new mongoose.Types.ObjectId(),
     date: faker.date.past().toLocaleDateString(),
     hour: faker.date.past().toLocaleTimeString(),
     name: faker.person.firstName(),

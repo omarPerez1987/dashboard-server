@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 export interface ContactModel {
-  id: string;
+  _id: mongoose.Types.ObjectId;
   date: string;
   hour: string;
   name: string;
@@ -13,7 +13,7 @@ export interface ContactModel {
 }
 
 const contactSchema = new Schema({
-  id: String,
+  _id: mongoose.Schema.Types.ObjectId,
   date: String,
   hour: String,
   name: String,
@@ -24,4 +24,7 @@ const contactSchema = new Schema({
   review: String,
 });
 
-export const ContactSchema = mongoose.model<ContactModel>('contacts', contactSchema)
+export const ContactSchema = mongoose.model<ContactModel>(
+  "contacts",
+  contactSchema
+);

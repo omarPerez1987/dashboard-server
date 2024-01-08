@@ -48,7 +48,7 @@ export const putContact = async (
   body: ContactModel
 ): Promise<ContactModel | null> => {
   try {
-    return await ContactSchema.findByIdAndUpdate(body.id, body);
+    return await ContactSchema.findByIdAndUpdate(body);
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

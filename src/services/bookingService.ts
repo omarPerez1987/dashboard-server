@@ -14,10 +14,10 @@ export const getBookings = async (): Promise<BookingModel[]> => {
   }
 };
 
-export const getBooking = async (_id: string): Promise<BookingModel | null> => {
+export const getBooking = async (id: string): Promise<BookingModel | null> => {
   try {
-    return await BookingSchema.findById(_id);
-  } catch (error: any) {
+    return await BookingSchema.findById(id);
+  } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
       "Error al obtener la reserva de la base de datos."
@@ -46,7 +46,7 @@ export const putBooking = async (
   body: BookingModel
 ): Promise<BookingModel | null> => {
   try {
-    return await BookingSchema.findByIdAndUpdate(body.id, body);
+    return await BookingSchema.findByIdAndUpdate(body._id, body);
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -61,7 +61,7 @@ export const deleteBooking = async (
   id: string
 ): Promise<BookingModel | null> => {
   try {
-    return await BookingSchema.findOneAndDelete({ id: id });
+    return await BookingSchema.findOneAndDelete({ _id: id });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

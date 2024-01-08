@@ -46,7 +46,7 @@ export const postUser = async (): Promise<UserModel> => {
 
 export const putUser = async (body: UserModel): Promise<UserModel | null> => {
   try {
-    return await UserSchema.findByIdAndUpdate(body.id, body);
+    return await UserSchema.findByIdAndUpdate(body);
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
