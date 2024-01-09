@@ -13,7 +13,7 @@ const router = Router();
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contacts: ContactModel[] = await getContacts();
-    res.json({ contacts });
+    res.json({ data: contacts });
   } catch (error) {
     next(error);
   }
@@ -22,7 +22,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     const contact = await getContact(id);
-    res.json({ contact });
+    res.json({ data: contact });
   } catch (error) {
     next(error);
   }
@@ -31,7 +31,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contact = await postContact(req.body);
-    res.json({ success: "Contact create success", data: contact });
+    res.json({ data: contact });
   } catch (error) {
     next(error);
   }
@@ -40,20 +40,23 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 router.put("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contact = await putContact(req.body);
-    res.json({ success: "Contact successfully updated", data: contact });
+    res.json({ data: contact });
   } catch (error) {
     next(error);
   }
 });
 
-router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const _id = req.params._id;
-    const contact = await deleteContact(_id);
-    res.json({ success: "Contact successfully deleted", data: contact });
-  } catch (error) {
-    next(error);
+router.delete(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const _id = req.params._id;
+      const contact = await deleteContact(_id);
+      res.json({ data: contact });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export default router;
