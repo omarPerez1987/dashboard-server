@@ -49,7 +49,7 @@ export const putContact = async (
   body: ContactModel
 ): Promise<ContactModel | null> => {
   try {
-    return await ContactSchema.findByIdAndUpdate(body);
+    return await ContactSchema.findByIdAndUpdate(body._id, body, { new: true });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -61,10 +61,10 @@ export const putContact = async (
 };
 
 export const deleteContact = async (
-  id: string
+  _id: string
 ): Promise<ContactModel | null> => {
   try {
-    return await ContactSchema.findOneAndDelete({ id: id });
+    return await ContactSchema.findOneAndDelete({ id: _id });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

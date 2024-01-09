@@ -13,7 +13,7 @@ const router = Router();
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rooms: RoomModel[] = await getRooms();
-    res.json({ rooms });
+    res.json({ data: rooms });
   } catch (error) {
     next(error);
   }
@@ -22,7 +22,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     const room = await getRoom(id);
-    res.json({ room });
+    res.json({ data: room });
   } catch (error) {
     next(error);
   }
@@ -31,32 +31,29 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const room = await postRoom(req.body);
-    res.json({ success: "Room create success", data: room });
+    res.json({ data: room });
   } catch (error) {
     next(error);
   }
 });
 
-router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.put("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const room = await putRoom(req.body);
-    res.json({ success: "Room successfully updated", data: room });
+    res.json({ data: room });
   } catch (error) {
     next(error);
   }
 });
 
-router.delete(
-  "/:id",
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const id = req.params.id;
-      const room = await deleteRoom(id);
-      res.json({ success: "Room successfully deleted", data: room });
-    } catch (error) {
-      next(error);
-    }
+router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const _id = req.params._id
+    const room = await deleteRoom(_id);
+    res.json({ data: room });
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 export default router;

@@ -45,7 +45,7 @@ export const postRoom = async (body: RoomModel): Promise<RoomModel> => {
 
 export const putRoom = async (body: RoomModel): Promise<RoomModel | null> => {
   try {
-    return await RoomSchema.findByIdAndUpdate(body);
+    return await RoomSchema.findByIdAndUpdate(body._id, body, { new: true });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -56,9 +56,9 @@ export const putRoom = async (body: RoomModel): Promise<RoomModel | null> => {
   }
 };
 
-export const deleteRoom = async (id: string): Promise<RoomModel | null> => {
+export const deleteRoom = async (_id: string): Promise<RoomModel | null> => {
   try {
-    return await RoomSchema.findOneAndDelete({ id: id });
+    return await RoomSchema.findOneAndDelete({ id: _id });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

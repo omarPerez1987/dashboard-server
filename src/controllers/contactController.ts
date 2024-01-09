@@ -37,7 +37,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.put("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contact = await putContact(req.body);
     res.json({ success: "Contact successfully updated", data: contact });
@@ -46,17 +46,14 @@ router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.delete(
-  "/:id",
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const id = req.params.id;
-      const contact = await deleteContact(id);
-      res.json({ success: "Contact successfully deleted", data: contact });
-    } catch (error) {
-      next(error);
-    }
+router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const _id = req.params._id;
+    const contact = await deleteContact(_id);
+    res.json({ success: "Contact successfully deleted", data: contact });
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 export default router;

@@ -38,7 +38,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.put("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const booking = await putBooking(req.body);
     res.json({ success: "Booking successfully updated", data: booking });
@@ -51,8 +51,8 @@ router.delete(
   "/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id = req.params.id
-      const booking = await deleteBooking(id);
+      const _id = req.params._id;
+      const booking = await deleteBooking(_id);
       res.json({ success: "Booking successfully deleted", data: booking });
     } catch (error) {
       next(error);
