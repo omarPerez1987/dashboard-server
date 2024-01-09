@@ -14,11 +14,15 @@ router.post("/", (req: Request, res: Response) => {
   if (email === adminEmail && password === adminPassword) {
     const adminToken = generateAccessToken(email, password);
     if (adminToken) {
-      res.json({ token: adminToken });
+      return res.json({ token: adminToken });
+    } else {
+      return res
+        .status(401)
+        .json({ error: "Unauthorized: Unable to generate token" });
     }
-    return res.status(500).json({error: "Token was not generated internal error"})
+  } else {
+    return res.status(401).json({ error: "Unauthorized: Invalid credentials" });
   }
-  return res.status(401).json({ error: "Unauthorized: Invalid credentials" });
 });
 
 export default router;
