@@ -13,7 +13,10 @@ export interface ContactModel {
 }
 
 const contactSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: () => new mongoose.Types.ObjectId(),
+  },
   date: String,
   hour: String,
   name: String,
