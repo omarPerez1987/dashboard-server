@@ -14,9 +14,9 @@ export const getBookings = async (): Promise<BookingModel[]> => {
   }
 };
 
-export const getBooking = async (id: string): Promise<BookingModel | null> => {
+export const getBooking = async (_id: string): Promise<BookingModel | null> => {
   try {
-    return await BookingSchema.findById(id);
+    return await BookingSchema.findById(_id);
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -62,7 +62,7 @@ export const deleteBooking = async (
   _id: string
 ): Promise<BookingModel | null> => {
   try {
-    return await BookingSchema.findOneAndDelete({ id: _id });
+    return await BookingSchema.findOneAndDelete({ _id: _id });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

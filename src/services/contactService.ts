@@ -16,9 +16,9 @@ export const getContacts = async (): Promise<ContactModel[]> => {
   }
 };
 
-export const getContact = async (id: string): Promise<ContactModel | null> => {
+export const getContact = async (_id: string): Promise<ContactModel | null> => {
   try {
-    return await ContactSchema.findById(id).exec();
+    return await ContactSchema.findById(_id).exec();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -64,7 +64,7 @@ export const deleteContact = async (
   _id: string
 ): Promise<ContactModel | null> => {
   try {
-    return await ContactSchema.findOneAndDelete({ id: _id });
+    return await ContactSchema.findOneAndDelete({ _id: _id });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

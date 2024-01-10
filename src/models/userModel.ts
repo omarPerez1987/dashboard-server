@@ -9,10 +9,15 @@ export interface UserModel {
   description: string;
   status: string;
   startDate: string;
+  position: string;
+  password: string;
 }
 
 const userSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: () => new mongoose.Types.ObjectId(),
+  },
   photo: String,
   name: String,
   email: String,
@@ -20,6 +25,8 @@ const userSchema = new Schema({
   description: String,
   status: String,
   startDate: String,
+  position: String,
+  password: String
 });
 
 export const UserSchema = mongoose.model<UserModel>("users", userSchema);

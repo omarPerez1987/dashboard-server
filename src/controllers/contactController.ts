@@ -20,8 +20,8 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = req.params.id;
-    const contact = await getContact(id);
+    const _id = req.params.id;
+    const contact = await getContact(_id);
     res.json({ data: contact });
   } catch (error) {
     next(error);
@@ -50,7 +50,7 @@ router.delete(
   "/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const _id = req.params._id;
+      const _id = req.params.id;
       const contact = await deleteContact(_id);
       res.json({ data: contact });
     } catch (error) {

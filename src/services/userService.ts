@@ -16,9 +16,9 @@ export const getUsers = async (): Promise<UserModel[]> => {
   }
 };
 
-export const getUser = async (id: string): Promise<UserModel | null> => {
+export const getUser = async (_id: string): Promise<UserModel | null> => {
   try {
-    return await UserSchema.findById(id).exec();
+    return await UserSchema.findById(_id).exec();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -58,7 +58,7 @@ export const putUser = async (body: UserModel): Promise<UserModel | null> => {
 
 export const deleteUser = async (_id: string): Promise<UserModel | null> => {
   try {
-    return await UserSchema.findOneAndDelete({ id: _id });
+    return await UserSchema.findOneAndDelete({_id: _id});
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

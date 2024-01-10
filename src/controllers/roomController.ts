@@ -20,8 +20,8 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = req.params.id;
-    const room = await getRoom(id);
+    const _id = req.params.id;
+    const room = await getRoom(_id);
     res.json({ data: room });
   } catch (error) {
     next(error);
@@ -48,7 +48,7 @@ router.put("/", async (req: Request, res: Response, next: NextFunction) => {
 
 router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const _id = req.params._id
+    const _id = req.params.id
     const room = await deleteRoom(_id);
     res.json({ data: room });
   } catch (error) {
