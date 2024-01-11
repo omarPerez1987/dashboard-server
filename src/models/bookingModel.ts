@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { RoomModel } from "./roomModel";
 
 export interface BookingModel {
   _id: mongoose.Types.ObjectId;
@@ -12,12 +13,7 @@ export interface BookingModel {
   notes: string;
   idRoom: string;
   check: string;
-  room?: string;
-  price?: number;
-  description?: string;
-  facilities?: Array<string>;
-  photo?: string | null;
-  status?: string;
+  dataRoom: RoomModel | null
 }
 
 const bookingSchema = new Schema({
