@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import { ContactModel, ContactSchema } from "../models/contactModel";
 import { generateFakeContact } from "../seeds/contactsSeed";
 

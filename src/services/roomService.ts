@@ -1,5 +1,4 @@
-import { Request, Response } from "express";
-import roomsData from "../JSON/rooms.json";
+
 import { RoomModel, RoomSchema } from "../models/roomModel";
 import { generateFakeRoom } from "../seeds/roomsSeed";
 
