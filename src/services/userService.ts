@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import usersData from "../JSON/users.json";
 import { UserModel, UserSchema } from "../models/userModel";
 import { generateFakeUser } from "../seeds/usersSeed";
 

@@ -32,34 +32,34 @@ export const getBookings = async (): Promise<BookingModel[]> => {
 };
 
 export const getBooking = async (_id: string) => {
-  // try {
-  //   const dataOneBooking = await BookingSchema.findById(_id).exec();
-  //   const dataRooms = await RoomSchema.find().exec();
+  try {
+    const dataOneBooking = await BookingSchema.findById(_id).exec();
+    const dataRooms = await RoomSchema.find().exec();
     
-  //   const searchIdRoom = () => {
-  //     let result: BookingModel | null = null;
+    const searchIdRoom = () => {
+      let result: BookingModel | null = null;
 
-  //     dataRooms.forEach((room) => {
-  //       if (room._id.toString() === dataOneBooking?.idRoom) {
-  //         result = {
-  //           ...dataOneBooking?.toObject(),
-  //           dataRoom: room?.toObject(),
-  //         };
-  //       }
-  //     });
+      dataRooms.forEach((room) => {
+        if (room._id.toString() === dataOneBooking?.idRoom) {
+          result = {
+            ...dataOneBooking?.toObject(),
+            dataRoom: room?.toObject(),
+          };
+        }
+      });
 
-  //     return result;
-  //   };
+      return result;
+    };
 
-  //   return searchIdRoom();
-  // } catch (error) {
-  //   console.log(error);
-  //   const databaseError: any = new Error(
-  //     "Error al obtener la reserva de la base de datos."
-  //   );
-  //   databaseError.status = 404;
-  //   throw databaseError;
-  // }
+    return searchIdRoom();
+  } catch (error) {
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al obtener la reserva de la base de datos."
+    );
+    databaseError.status = 404;
+    throw databaseError;
+  }
 };
 
 
