@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon src/app.ts",
     "test": "jest",
+    "build": "npx tsc",
     "deploy": "serverless deploy",
     "remove": "serverless remove"
   },
