@@ -11,7 +11,7 @@ export const generateFakeUser = (): UserModel => {
     phone: faker.phone.number(),
     description: faker.lorem.sentence(),
     status: faker.helpers.arrayElement(["active", "inactive"]),
-    startDate: faker.date.past().toLocaleDateString(),
+    startDate: faker.date.past({ years: 1 }).toISOString().split("T")[0],
     position: faker.helpers.arrayElement(["Manager", "Reception", "Service"]),
     password: faker.internet.password(),
   };
