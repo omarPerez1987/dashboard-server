@@ -2,6 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 export interface ContactModel {
   _id: mongoose.Types.ObjectId;
+  photo: string;
   date: string;
   hour: string;
   name: string;
@@ -17,6 +18,7 @@ const contactSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     default: () => new mongoose.Types.ObjectId(),
   },
+  photo: String,
   date: String,
   hour: String,
   name: String,

@@ -5,7 +5,8 @@ import mongoose from "mongoose";
 export const generateFakeContact = (): ContactModel => {
   return {
     _id: new mongoose.Types.ObjectId(),
-    date: faker.date.past().toLocaleDateString(),
+    photo: faker.image.avatarLegacy(),
+    date: faker.date.past({ years: 1 }).toISOString().split("T")[0],
     hour: faker.date.past().toLocaleTimeString(),
     name: faker.person.firstName(),
     last_name: faker.person.lastName(),

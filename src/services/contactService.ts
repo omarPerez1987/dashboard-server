@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import contactsData from "../JSON/contact.json";
 import { ContactModel, ContactSchema } from "../models/contactModel";
 import { generateFakeContact } from "../seeds/contactsSeed";
 
@@ -33,6 +32,7 @@ export const postContact = async (
   body: ContactModel
 ): Promise<ContactModel> => {
   try {
+    // const contact = new ContactSchema(generateFakeContact()); 
     const contact = new ContactSchema(body);
     return await contact.save();
   } catch (error) {

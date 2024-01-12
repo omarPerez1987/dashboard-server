@@ -31,35 +31,35 @@ export const getBookings = async (): Promise<BookingModel[]> => {
   }
 };
 
-export const getBooking = async (_id: string): Promise<BookingModel | null> => {
-  try {
-    const dataOneBooking = await BookingSchema.findById(_id).exec();
-    const dataRooms = await RoomSchema.find().exec();
+export const getBooking = async (_id: string) => {
+  // try {
+  //   const dataOneBooking = await BookingSchema.findById(_id).exec();
+  //   const dataRooms = await RoomSchema.find().exec();
     
-    const searchIdRoom = () => {
-      let result: BookingModel | null = null;
+  //   const searchIdRoom = () => {
+  //     let result: BookingModel | null = null;
 
-      dataRooms.forEach((room) => {
-        if (room._id.toString() === dataOneBooking?.idRoom) {
-          result = {
-            ...dataOneBooking?.toObject(),
-            dataRoom: room?.toObject(),
-          };
-        }
-      });
+  //     dataRooms.forEach((room) => {
+  //       if (room._id.toString() === dataOneBooking?.idRoom) {
+  //         result = {
+  //           ...dataOneBooking?.toObject(),
+  //           dataRoom: room?.toObject(),
+  //         };
+  //       }
+  //     });
 
-      return result;
-    };
+  //     return result;
+  //   };
 
-    return searchIdRoom();
-  } catch (error) {
-    console.log(error);
-    const databaseError: any = new Error(
-      "Error al obtener la reserva de la base de datos."
-    );
-    databaseError.status = 404;
-    throw databaseError;
-  }
+  //   return searchIdRoom();
+  // } catch (error) {
+  //   console.log(error);
+  //   const databaseError: any = new Error(
+  //     "Error al obtener la reserva de la base de datos."
+  //   );
+  //   databaseError.status = 404;
+  //   throw databaseError;
+  // }
 };
 
 
@@ -67,6 +67,7 @@ export const postBooking = async (
   body: BookingModel
 ): Promise<BookingModel> => {
   try {
+    // const booking = new BookingSchema(generateFakeBooking());
     const booking = new BookingSchema(body);
     const savedBooking = await booking.save();
     const dataRoom = await RoomSchema.findById(savedBooking.idRoom).exec();
@@ -83,6 +84,7 @@ export const postBooking = async (
       error.status = 404;
       throw error;
     }
+    return await booking.save();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

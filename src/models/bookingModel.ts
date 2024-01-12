@@ -13,7 +13,7 @@ export interface BookingModel {
   notes: string;
   idRoom: string;
   check: string;
-  dataRoom: RoomModel | null
+  dataRoom?: RoomModel | null
 }
 
 const bookingSchema = new Schema({
