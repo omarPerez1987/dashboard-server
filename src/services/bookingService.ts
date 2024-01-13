@@ -68,6 +68,7 @@ export const postBooking = async (
 ): Promise<BookingModel> => {
   try {
     // const booking = new BookingSchema(generateFakeBooking());
+    // return await booking.save();
     const booking = new BookingSchema(body);
     const savedBooking = await booking.save();
     const dataRoom = await RoomSchema.findById(savedBooking.idRoom).exec();
@@ -84,16 +85,15 @@ export const postBooking = async (
       error.status = 404;
       throw error;
     }
-    return await booking.save();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
       'Error al guardar la reserva en la base de datos.'
-    );
-    databaseError.status = 500;
-    throw databaseError;
-  }
-};
+      );
+      databaseError.status = 500;
+      throw databaseError;
+    }
+  };
 
 export const putBooking = async (body: BookingModel): Promise<BookingModel | null> => {
   try {

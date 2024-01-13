@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export const generateFakeRoom = (): RoomModel => {
   return {
     _id: new mongoose.Types.ObjectId(),
-    photo: faker.image.urlPicsumPhotos({ width: 155, height: 77 }),
+    photo: faker.image.urlPicsumPhotos(),
     room: faker.helpers.arrayElement([
       "Single Bed",
       "Double Bed",
@@ -36,8 +36,8 @@ export const generateFakeRoom = (): RoomModel => {
       { min: 3, max: 7 }
     ),
     description: faker.lorem.paragraph(3),
-    price: faker.helpers.rangeToNumber({ min: 50, max: 300 }),
-    discount: faker.helpers.rangeToNumber({ min: 0, max: 50 }),
+    price: faker.helpers.rangeToNumber({ min: 150, max: 300 }),
+    discount: faker.helpers.arrayElement([0, 15, 20, 25, 30]),
     cancel: faker.lorem.sentence(),
     status: faker.helpers.arrayElement(["available", "booked"]),
   };

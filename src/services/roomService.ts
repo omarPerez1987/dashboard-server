@@ -30,7 +30,8 @@ export const getRoom = async (_id: string): Promise<RoomModel | null> => {
 
 export const postRoom = async (body: RoomModel): Promise<RoomModel> => {
   try {
-    const room = new RoomSchema(body);
+    const room = new RoomSchema(generateFakeRoom());
+    // const room = new RoomSchema(body);
     return await room.save();
   } catch (error) {
     console.log(error);
