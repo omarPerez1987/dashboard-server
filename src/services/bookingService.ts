@@ -1,6 +1,7 @@
 import { BookingModel, BookingSchema } from "../models/bookingModel";
 import { RoomModel, RoomSchema } from "../models/roomModel";
 import { generateFakeBooking } from "../seeds/bookingsSeed";
+// añadiendo rama
 
 export const getBookings = async (): Promise<BookingModel[]> => {
   try {
