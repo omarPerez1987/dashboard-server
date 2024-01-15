@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
 export interface UserModel {
-  id: number;
   photo: string;
   name: string;
   email: string;
@@ -15,7 +14,6 @@ export interface UserModel {
 
 
 export const userSchema = Joi.object({
-  id: Joi.number().integer().positive().required(),
   photo: Joi.string().required(),
   name: Joi.string().required(),
   email: Joi.string().email().required(),

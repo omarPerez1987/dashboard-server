@@ -23,3 +23,12 @@ export const connectionSQL = async () => {
     throw error;
   }
 };
+
+export const executeQuery = async (query: string, params?: any[]) => {
+  const connection = await connectionSQL();
+  try {
+    return await connection.execute(query, params);
+  } finally {
+    connection.end();
+  }
+};
