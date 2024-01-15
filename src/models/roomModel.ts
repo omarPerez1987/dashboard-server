@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
 export interface RoomModel {
-  _id: number;
   photo: string | null;
   room: string;
   bed: string;
@@ -15,7 +14,6 @@ export interface RoomModel {
 
 
 export const roomSchema = Joi.object({
-  id: Joi.number().integer().positive(),
   photo: Joi.string().allow(null),
   room: Joi.string().required(),
   bed: Joi.string().required(),

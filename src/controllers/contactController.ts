@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const contacts: ContactModel[] = await getContacts();
+    const contacts= await getContacts();
     res.json({ data: contacts });
   } catch (error) {
     next(error);
@@ -20,8 +20,8 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const _id = req.params.id;
-    const contact = await getContact(_id);
+    const id = req.params.id;
+    const contact = await getContact(id);
     res.json({ data: contact });
   } catch (error) {
     next(error);
@@ -30,7 +30,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const contact = await postContact(req.body);
+    const contact = await postContact();
     res.json({ data: contact });
   } catch (error) {
     next(error);

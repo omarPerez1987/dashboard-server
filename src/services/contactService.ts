@@ -1,9 +1,11 @@
+import { executeQuery } from "../config/sql";
 import { ContactModel, contactSchema } from "../models/contactModel";
-import { generateFakeContact } from "../seeds/contactsSeed";
+import { generateFakeContact, generateTableContacts } from "../seeds/contactsSeed";
 
-export const getContacts = async (): Promise<ContactModel[]> => {
+export const getContacts = async () => {
   try {
-    return await contactSchema.find().exec();
+    const [results, fields] = await executeQuery("SELECT * FROM contacts");
+    return results;
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -14,26 +16,38 @@ export const getContacts = async (): Promise<ContactModel[]> => {
   }
 };
 
-export const getContact = async (_id: string): Promise<ContactModel | null> => {
+export const getContact = async (id: string): Promise<void> => {
   try {
-    return await contactSchema.findById(_id).exec();
+    const [rows]: any = await executeQuery(
+      `SELECT * FROM contacts WHERE id = ?`,
+      [id]
+    );
+    return rows;
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
-      "Error al obtener el contacto en la base de datos."
+      "Error al obtener el usuario en la base de datos."
     );
     databaseError.status = 404;
     throw databaseError;
   }
 };
 
-export const postContact = async (
-  body: ContactModel
-): Promise<ContactModel> => {
+export const postContact = async (): Promise<void> => {
   try {
-    // const contact = new contactSchema(generateFakeContact()); 
-    const contact = new contactSchema(body);
-    return await contact.save();
+    const [rows]: any = await executeQuery("SHOW TABLES LIKE 'contacts'");
+    if (rows.length === 0) {
+      generateTableContacts();
+    } else {
+      const fakeContact = generateFakeContact();
+      await executeQuery(
+        `
+        INSERT INTO contacts (photo, date, hour, name, last_name, email, telephone, archived, review)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `,
+        Object.values(fakeContact)
+      );
+    }
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -44,11 +58,20 @@ export const postContact = async (
   }
 };
 
-export const putContact = async (
-  body: ContactModel
-): Promise<ContactModel | null> => {
+export const putContact = async (body: any): Promise<void> => {
   try {
-    return await contactSchema.findByIdAndUpdate(body._id, body, { new: true });
+    const { id, ...updatedValues } = body;
+
+    const updateFields = Object.keys(updatedValues)
+      .map((key) => `${key} = ?`)
+      .join(", ");
+
+    const query = `UPDATE contacts SET ${updateFields} WHERE id = ?`;
+
+    const values = [...Object.values(updatedValues), id];
+
+    const [rows]: any = await executeQuery(query, values);
+    return rows;
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -60,14 +83,15 @@ export const putContact = async (
 };
 
 export const deleteContact = async (
-  _id: string
+  id: string
 ): Promise<ContactModel | null> => {
   try {
-    return await contactSchema.findOneAndDelete({ _id: _id });
+    await executeQuery(`DELETE FROM contacts WHERE id = ?`, [id]);
+    return null;
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
-      "Error al eliminar el contacto en la base de datos."
+      "Error al eliminar el usuario en la base de datos."
     );
     databaseError.status = 404;
     throw databaseError;

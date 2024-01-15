@@ -1,10 +1,29 @@
 import { faker } from "@faker-js/faker";
 import { RoomModel } from "../models/roomModel";
-import mongoose from "mongoose";
+import { executeQuery } from "../config/sql";
+
+
+
+export const generateTableRooms = async () => {
+  await executeQuery(`
+  CREATE TABLE rooms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    photo VARCHAR(255),
+    room VARCHAR(50),
+    bed VARCHAR(50),
+    facilities TEXT,
+    description TEXT,
+    price DECIMAL(10, 2),
+    discount INT,
+    cancel TEXT,
+    status VARCHAR(20)
+  )
+`);
+}
+
 
 export const generateFakeRoom = (): RoomModel => {
   return {
-    _id: new mongoose.Types.ObjectId(),
     photo: faker.image.urlPicsumPhotos(),
     room: faker.helpers.arrayElement([
       "Single Bed",

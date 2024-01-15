@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
 export interface ContactModel {
-  _id: number;
   photo: string;
   date: string;
   hour: string;
@@ -15,7 +14,6 @@ export interface ContactModel {
 
 
 export const contactSchema = Joi.object({
-  id: Joi.number().integer().positive(),
   date: Joi.string().required(),
   hour: Joi.string().required(),
   name: Joi.string().required(),

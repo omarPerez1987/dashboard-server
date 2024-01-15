@@ -2,7 +2,6 @@ import Joi from 'joi';
 import { RoomModel } from "./roomModel";
 
 export interface BookingModel {
-  _id: number;
   name: string;
   orderDate: string;
   orderTime: string;
@@ -17,7 +16,6 @@ export interface BookingModel {
 }
 
 export const bookingSchema = Joi.object({
-  id: Joi.number().integer().positive(),
   name: Joi.string().required(),
   orderDate: Joi.string().required(),
   orderTime: Joi.string().required(),

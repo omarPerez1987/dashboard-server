@@ -15,7 +15,7 @@ connectionSQL();
 app.use(express.json());
 
 // Routes
-// app.use(routes);
+app.use(routes);
 
 app.use(errorHandler);
 
