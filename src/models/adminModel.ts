@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import Joi from 'joi'
 
 export interface AdminModel {
   email: string;
@@ -6,10 +6,8 @@ export interface AdminModel {
   password: string;
 }
 
-const adminSchema = new Schema({
-  name: String,
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+export const adminSchema = Joi.object({
+  name: Joi.string(),
+  email: Joi.string().email().required(),
+  password: Joi.number(),
 });
-
-export const AdminSchema = mongoose.model<AdminModel>("Admins", adminSchema);

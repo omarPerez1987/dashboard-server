@@ -1,12 +1,11 @@
-import { BookingModel, BookingSchema } from "../models/bookingModel";
-import { RoomModel, RoomSchema } from "../models/roomModel";
+import { BookingModel, bookingSchema } from "../models/bookingModel";
+import { RoomModel, roomSchema } from "../models/roomModel";
 import { generateFakeBooking } from "../seeds/bookingsSeed";
-// añadiendo rama
 
 export const getBookings = async (): Promise<BookingModel[]> => {
   try {
-    const dataBookings = await BookingSchema.find().exec();
-    const dataRooms = await RoomSchema.find().exec();
+    const dataBookings = await bookingSchema.find().exec();
+    const dataRooms = await roomSchema.find().exec();
 
     const bookingsWithRooms: BookingModel[] = dataBookings.map((booking) => {
       const room = dataRooms.find(
@@ -34,8 +33,8 @@ export const getBookings = async (): Promise<BookingModel[]> => {
 
 export const getBooking = async (_id: string) => {
   try {
-    const dataOneBooking = await BookingSchema.findById(_id).exec();
-    const dataRooms = await RoomSchema.find().exec();
+    const dataOneBooking = await bookingSchema.findById(_id).exec();
+    const dataRooms = await roomSchema.find().exec();
     
     const searchIdRoom = () => {
       let result: BookingModel | null = null;
@@ -68,11 +67,11 @@ export const postBooking = async (
   body: BookingModel
 ): Promise<BookingModel> => {
   try {
-    // const booking = new BookingSchema(generateFakeBooking());
+    // const booking = new bookingSchema(generateFakeBooking());
     // return await booking.save();
-    const booking = new BookingSchema(body);
+    const booking = new bookingSchema(body);
     const savedBooking = await booking.save();
-    const dataRoom = await RoomSchema.findById(savedBooking.idRoom).exec();
+    const dataRoom = await roomSchema.findById(savedBooking.idRoom).exec();
 
     if (dataRoom) {
       const result: BookingModel = {
@@ -98,8 +97,8 @@ export const postBooking = async (
 
 export const putBooking = async (body: BookingModel): Promise<BookingModel | null> => {
   try {
-    const dataUpdateBooking = await BookingSchema.findByIdAndUpdate(body._id, body, { new: true });
-    const dataRoom = await RoomSchema.findById(dataUpdateBooking?.idRoom).exec();
+    const dataUpdateBooking = await bookingSchema.findByIdAndUpdate(body._id, body, { new: true });
+    const dataRoom = await roomSchema.findById(dataUpdateBooking?.idRoom).exec();
 
     if (dataRoom) {
       const result: BookingModel = {
@@ -127,7 +126,7 @@ export const deleteBooking = async (
   _id: string
 ): Promise<BookingModel | null> => {
   try {
-    return await BookingSchema.findOneAndDelete({ _id: _id });
+    return await bookingSchema.findOneAndDelete({ _id: _id });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

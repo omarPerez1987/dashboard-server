@@ -1,9 +1,9 @@
-import { UserModel, UserSchema } from "../models/userModel";
+import { UserModel, userSchema } from "../models/userModel";
 import { generateFakeUser } from "../seeds/usersSeed";
 
 export const getUsers = async (): Promise<UserModel[]> => {
   try {
-    return await UserSchema.find().exec();
+    return await userSchema.find().exec();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -16,7 +16,7 @@ export const getUsers = async (): Promise<UserModel[]> => {
 
 export const getUser = async (_id: string): Promise<UserModel | null> => {
   try {
-    return await UserSchema.findById(_id).exec();
+    return await userSchema.findById(_id).exec();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -29,8 +29,8 @@ export const getUser = async (_id: string): Promise<UserModel | null> => {
 
 export const postUser = async (body: UserModel): Promise<UserModel> => {
   try {
-    // const user = new UserSchema(generateFakeUser());
-    const user = new UserSchema(body);
+    // const user = new userSchema(generateFakeUser());
+    const user = new userSchema(body);
     return await user.save();
   } catch (error) {
     console.log(error);
@@ -44,7 +44,7 @@ export const postUser = async (body: UserModel): Promise<UserModel> => {
 
 export const putUser = async (body: UserModel): Promise<UserModel | null> => {
   try {
-    return await UserSchema.findByIdAndUpdate(body._id, body, { new: true });
+    return await userSchema.findByIdAndUpdate(body._id, body, { new: true });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -57,7 +57,7 @@ export const putUser = async (body: UserModel): Promise<UserModel | null> => {
 
 export const deleteUser = async (_id: string): Promise<UserModel | null> => {
   try {
-    return await UserSchema.findOneAndDelete({_id: _id});
+    return await userSchema.findOneAndDelete({_id: _id});
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

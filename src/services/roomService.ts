@@ -1,10 +1,10 @@
 
-import { RoomModel, RoomSchema } from "../models/roomModel";
+import { RoomModel, roomSchema } from "../models/roomModel";
 import { generateFakeRoom } from "../seeds/roomsSeed";
 
 export const getRooms = async (): Promise<RoomModel[]> => {
   try {
-    return await RoomSchema.find().exec();
+    return await roomSchema.find().exec();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -17,7 +17,7 @@ export const getRooms = async (): Promise<RoomModel[]> => {
 
 export const getRoom = async (_id: string): Promise<RoomModel | null> => {
   try {
-    return await RoomSchema.findById(_id).exec();
+    return await roomSchema.findById(_id).exec();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -30,8 +30,8 @@ export const getRoom = async (_id: string): Promise<RoomModel | null> => {
 
 export const postRoom = async (body: RoomModel): Promise<RoomModel> => {
   try {
-    const room = new RoomSchema(generateFakeRoom());
-    // const room = new RoomSchema(body);
+    const room = new roomSchema(generateFakeRoom());
+    // const room = new roomSchema(body);
     return await room.save();
   } catch (error) {
     console.log(error);
@@ -45,7 +45,7 @@ export const postRoom = async (body: RoomModel): Promise<RoomModel> => {
 
 export const putRoom = async (body: RoomModel): Promise<RoomModel | null> => {
   try {
-    return await RoomSchema.findByIdAndUpdate(body._id, body, { new: true });
+    return await roomSchema.findByIdAndUpdate(body._id, body, { new: true });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -58,7 +58,7 @@ export const putRoom = async (body: RoomModel): Promise<RoomModel | null> => {
 
 export const deleteRoom = async (_id: string): Promise<RoomModel | null> => {
   try {
-    return await RoomSchema.findOneAndDelete({ _id: _id });
+    return await roomSchema.findOneAndDelete({ _id: _id });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

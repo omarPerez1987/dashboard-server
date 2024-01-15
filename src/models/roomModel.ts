@@ -1,7 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+import Joi from 'joi';
 
 export interface RoomModel {
-  _id: mongoose.Types.ObjectId;
+  _id: number;
   photo: string | null;
   room: string;
   bed: string;
@@ -13,20 +13,17 @@ export interface RoomModel {
   status: string;
 }
 
-const roomSchema = new Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: () => new mongoose.Types.ObjectId(),
-  },
-  photo: String || null,
-  room: String,
-  bed: String,
-  facilities: Array,
-  description: String,
-  price: Number,
-  discount: Number,
-  cancel: String,
-  status: String,
+
+export const roomSchema = Joi.object({
+  id: Joi.number().integer().positive(),
+  photo: Joi.string().allow(null),
+  room: Joi.string().required(),
+  bed: Joi.string().required(),
+  facilities: Joi.array().items(Joi.string()),
+  description: Joi.string().required(),
+  price: Joi.number().required(),
+  discount: Joi.number().required(),
+  cancel: Joi.string().required(),
+  status: Joi.string().required(),
 });
 
-export const RoomSchema = mongoose.model<RoomModel>("rooms", roomSchema);

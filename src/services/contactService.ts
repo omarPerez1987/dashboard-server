@@ -1,9 +1,9 @@
-import { ContactModel, ContactSchema } from "../models/contactModel";
+import { ContactModel, contactSchema } from "../models/contactModel";
 import { generateFakeContact } from "../seeds/contactsSeed";
 
 export const getContacts = async (): Promise<ContactModel[]> => {
   try {
-    return await ContactSchema.find().exec();
+    return await contactSchema.find().exec();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -16,7 +16,7 @@ export const getContacts = async (): Promise<ContactModel[]> => {
 
 export const getContact = async (_id: string): Promise<ContactModel | null> => {
   try {
-    return await ContactSchema.findById(_id).exec();
+    return await contactSchema.findById(_id).exec();
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -31,8 +31,8 @@ export const postContact = async (
   body: ContactModel
 ): Promise<ContactModel> => {
   try {
-    // const contact = new ContactSchema(generateFakeContact()); 
-    const contact = new ContactSchema(body);
+    // const contact = new contactSchema(generateFakeContact()); 
+    const contact = new contactSchema(body);
     return await contact.save();
   } catch (error) {
     console.log(error);
@@ -48,7 +48,7 @@ export const putContact = async (
   body: ContactModel
 ): Promise<ContactModel | null> => {
   try {
-    return await ContactSchema.findByIdAndUpdate(body._id, body, { new: true });
+    return await contactSchema.findByIdAndUpdate(body._id, body, { new: true });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -63,7 +63,7 @@ export const deleteContact = async (
   _id: string
 ): Promise<ContactModel | null> => {
   try {
-    return await ContactSchema.findOneAndDelete({ _id: _id });
+    return await contactSchema.findOneAndDelete({ _id: _id });
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

@@ -1,8 +1,8 @@
-import mongoose, { Schema } from "mongoose";
+import Joi from 'joi';
 import { RoomModel } from "./roomModel";
 
 export interface BookingModel {
-  _id: mongoose.Types.ObjectId;
+  _id: number;
   name: string;
   orderDate: string;
   orderTime: string;
@@ -16,24 +16,16 @@ export interface BookingModel {
   dataRoom?: RoomModel | null
 }
 
-const bookingSchema = new Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: () => new mongoose.Types.ObjectId(),
-  },
-  name: String,
-  orderDate: String,
-  orderTime: String,
-  checkin: String,
-  checkinTime: String,
-  checkout: String,
-  checkoutTime: String,
-  notes: String,
-  idRoom: String,
-  check: String,
+export const bookingSchema = Joi.object({
+  id: Joi.number().integer().positive(),
+  name: Joi.string().required(),
+  orderDate: Joi.string().required(),
+  orderTime: Joi.string().required(),
+  checkin: Joi.string().required(),
+  checkinTime: Joi.string().required(),
+  checkout: Joi.string().required(),
+  checkoutTime: Joi.string().required(),
+  notes: Joi.string(),
+  idRoom: Joi.string().required(),
+  check: Joi.string().required(),
 });
-
-export const BookingSchema = mongoose.model<BookingModel>(
-  "bookings",
-  bookingSchema
-);

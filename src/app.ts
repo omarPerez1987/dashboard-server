@@ -1,20 +1,20 @@
 import express, { Express } from "express";
-import cors from "cors"
+import cors from "cors";
 import routes from "./routes";
-import { connectMongoDb } from "./config/mongodb";
+import { connectionSQL } from "./config/sql";
 import { errorHandler } from "./middleware/errorHandler";
 
 const app: Express = express();
 
-//HABILITAR CORS
+// HABILITAR CORS
 app.use(cors());
 
-connectMongoDb();
+connectionSQL();
 
 app.use(express.json());
 
 // Routes
-app.use(routes);
+// app.use(routes);
 
 app.use(errorHandler);
 

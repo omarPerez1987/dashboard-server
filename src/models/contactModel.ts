@@ -1,7 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+import Joi from 'joi';
 
 export interface ContactModel {
-  _id: mongoose.Types.ObjectId;
+  _id: number;
   photo: string;
   date: string;
   hour: string;
@@ -13,23 +13,16 @@ export interface ContactModel {
   review: string;
 }
 
-const contactSchema = new Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: () => new mongoose.Types.ObjectId(),
-  },
-  photo: String,
-  date: String,
-  hour: String,
-  name: String,
-  last_name: String,
-  email: { type: String, required: true },
-  telephone: String,
-  archived: Boolean,
-  review: String,
+
+export const contactSchema = Joi.object({
+  id: Joi.number().integer().positive(),
+  date: Joi.string().required(),
+  hour: Joi.string().required(),
+  name: Joi.string().required(),
+  last_name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  telephone: Joi.string().required(),
+  archived: Joi.boolean().required(),
+  review: Joi.string().required(),
 });
 
-export const ContactSchema = mongoose.model<ContactModel>(
-  "contacts",
-  contactSchema
-);

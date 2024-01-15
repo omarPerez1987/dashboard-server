@@ -1,7 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+import Joi from 'joi';
 
 export interface UserModel {
-  _id: mongoose.Types.ObjectId;
+  id: number;
   photo: string;
   name: string;
   email: string;
@@ -13,20 +13,17 @@ export interface UserModel {
   password: string;
 }
 
-const userSchema = new Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: () => new mongoose.Types.ObjectId(),
-  },
-  photo: String,
-  name: String,
-  email: String,
-  phone: String,
-  description: String,
-  status: String,
-  startDate: String,
-  position: String,
-  password: String
+
+export const userSchema = Joi.object({
+  id: Joi.number().integer().positive().required(),
+  photo: Joi.string().required(),
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  phone: Joi.string().required(),
+  description: Joi.string().required(),
+  status: Joi.string().required(),
+  startDate: Joi.string().required(),
+  position: Joi.string().required(),
+  password: Joi.string().required(),
 });
 
-export const UserSchema = mongoose.model<UserModel>("users", userSchema);
