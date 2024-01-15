@@ -4,6 +4,7 @@ import routes from "./routes";
 import { connectionSQL } from "./config/sql";
 import { errorHandler } from "./middleware/errorHandler";
 
+
 const app: Express = express();
 
 // HABILITAR CORS
