@@ -8,7 +8,11 @@ import {
 
 export const getBookings = async () => {
   try {
-    const [results, fields] = await executeQuery("SELECT * FROM bookings");
+    const [results, fields] = await executeQuery(`
+      SELECT bookings.*, rooms.*
+      FROM bookings
+      INNER JOIN rooms ON bookings.idRoom = rooms.id
+    `);
     return results;
   } catch (error) {
     console.log(error);
