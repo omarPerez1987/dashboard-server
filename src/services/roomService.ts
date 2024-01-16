@@ -39,14 +39,23 @@ export const postRoom = async (): Promise<void> => {
       generateTableRooms();
     } else {
       const fakeRooms = generateFakeRoom();
-      const fakeRoomsKeys = Object.keys(fakeRooms).join(", ");
-      const fakeRoomsValues = Object.values(fakeRooms)
-        .map(() => `?`)
+      const fakeRoomsKeys = Object.keys(fakeRooms);
+      const fakeRoomsValues = Object.values(fakeRooms);
+
+      const facilitiesIndex = fakeRoomsKeys.indexOf("facilities");
+
+      if (facilitiesIndex) {
+        fakeRoomsValues[facilitiesIndex] = JSON.stringify(
+          fakeRoomsValues[facilitiesIndex]
+        );
+      }
+
+      const valuesString = fakeRoomsValues
+        .map((value) => (typeof value === "string" ? `'${value}'` : value))
         .join(", ");
 
       await executeQuery(
-        `INSERT INTO rooms (${fakeRoomsKeys}) VALUES (${fakeRoomsValues})`,
-        Object.values(fakeRooms)
+        `INSERT INTO rooms (${fakeRoomsKeys}) VALUES (${valuesString})`
       );
     }
   } catch (error) {
@@ -54,7 +63,7 @@ export const postRoom = async (): Promise<void> => {
     const databaseError: any = new Error(
       "Error al guardar la habitacion en la base de datos."
     );
-    databaseError.status = 404;
+    databaseError.status = 500;
     throw databaseError;
   }
 };
