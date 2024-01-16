@@ -1,26 +1,15 @@
+import { executeQuery } from "../config/sql";
 import { BookingModel, bookingSchema } from "../models/bookingModel";
 import { RoomModel, roomSchema } from "../models/roomModel";
-import { generateFakeBooking } from "../seeds/bookingsSeed";
+import {
+  generateFakeBooking,
+  generateTableBookings,
+} from "../seeds/bookingsSeed";
 
-export const getBookings = async (): Promise<BookingModel[]> => {
+export const getBookings = async () => {
   try {
-    const dataBookings = await bookingSchema.find().exec();
-    const dataRooms = await roomSchema.find().exec();
-
-    const bookingsWithRooms: BookingModel[] = dataBookings.map((booking) => {
-      const room = dataRooms.find(
-        (room) => room._id.toString() === booking.idRoom.toString()
-      );
-
-      const bookingWithRoom: BookingModel = {
-        ...booking.toObject(),
-        dataRoom: room ? room.toObject() : null,
-      };
-
-      return bookingWithRoom;
-    });
-
-    return bookingsWithRooms;
+    const [results, fields] = await executeQuery("SELECT * FROM bookings");
+    return results;
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -31,27 +20,15 @@ export const getBookings = async (): Promise<BookingModel[]> => {
   }
 };
 
-export const getBooking = async (_id: string) => {
+export const getBooking = async (id: string) => {
   try {
-    const dataOneBooking = await bookingSchema.findById(_id).exec();
-    const dataRooms = await roomSchema.find().exec();
-    
-    const searchIdRoom = () => {
-      let result: BookingModel | null = null;
-
-      dataRooms.forEach((room) => {
-        if (room._id.toString() === dataOneBooking?.idRoom) {
-          result = {
-            ...dataOneBooking?.toObject(),
-            dataRoom: room?.toObject(),
-          };
-        }
-      });
-
-      return result;
-    };
-
-    return searchIdRoom();
+    const [rows]: any = await executeQuery(`
+      SELECT bookings.*, rooms.*
+      FROM bookings
+      INNER JOIN rooms ON bookings.idRoom = rooms.id
+      WHERE bookings.id = ?
+    `, [id]);
+    return rows;
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
@@ -62,71 +39,61 @@ export const getBooking = async (_id: string) => {
   }
 };
 
-
-export const postBooking = async (
-  body: BookingModel
-): Promise<BookingModel> => {
+export const postBooking = async (): Promise<void> => {
   try {
-    // const booking = new bookingSchema(generateFakeBooking());
-    // return await booking.save();
-    const booking = new bookingSchema(body);
-    const savedBooking = await booking.save();
-    const dataRoom = await roomSchema.findById(savedBooking.idRoom).exec();
-
-    if (dataRoom) {
-      const result: BookingModel = {
-        ...(savedBooking?.toObject() as BookingModel),
-        dataRoom: dataRoom?.toObject() as RoomModel,
-      };
-
-      return result;
+    const [rows]: any = await executeQuery("SHOW TABLES LIKE 'bookings'");
+    if (rows.length === 0) {
+      generateTableBookings();
     } else {
-      const error: any = new Error('No se encontró la habitación correspondiente a la reserva.');
-      error.status = 404;
-      throw error;
-    }
-  } catch (error) {
-    console.log(error);
-    const databaseError: any = new Error(
-      'Error al guardar la reserva en la base de datos.'
+      const fakeBooking = await generateFakeBooking();
+      const fakeContactsKeys = Object.keys(fakeBooking).join(", ");
+      const fakeContactsValues = Object.values(fakeBooking)
+        .map(() => `?`)
+        .join(", ");
+
+      await executeQuery(
+        `INSERT INTO bookings (${fakeContactsKeys}) VALUES (${fakeContactsValues})`,
+        Object.values(fakeBooking)
       );
-      databaseError.status = 500;
-      throw databaseError;
-    }
-  };
-
-export const putBooking = async (body: BookingModel): Promise<BookingModel | null> => {
-  try {
-    const dataUpdateBooking = await bookingSchema.findByIdAndUpdate(body._id, body, { new: true });
-    const dataRoom = await roomSchema.findById(dataUpdateBooking?.idRoom).exec();
-
-    if (dataRoom) {
-      const result: BookingModel = {
-        ...(dataUpdateBooking?.toObject() as BookingModel),
-        dataRoom: dataRoom?.toObject() as RoomModel,
-      };
-
-      return result;
-    } else {
-      const error: any = new Error('No se encontró la habitación correspondiente a la reserva.');
-      error.status = 404;
-      throw error;
     }
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(
-      'Error al actualizar la reserva en la base de datos.'
+      "Error al guardar la reserva en la base de datos."
     );
     databaseError.status = 500;
     throw databaseError;
   }
 };
 
-export const deleteBooking = async (
-  _id: string
-): Promise<BookingModel | null> => {
+export const putBooking = async (body: any): Promise<void> => {
   try {
-    return await bookingSchema.findOneAndDelete({ _id: _id });
+    const { id, ...updatedValues } = body;
+
+    const updateFields = Object.keys(updatedValues)
+      .map((key) => `${key} = ?`)
+      .join(", ");
+
+    const query = `UPDATE bookings SET ${updateFields} WHERE id = ?`;
+
+    const values = [...Object.values(updatedValues), id];
+
+    const [rows]: any = await executeQuery(query, values);
+    return rows;
+  } catch (error) {
+    console.log(error);
+    const databaseError: any = new Error(
+      "Error al actualizar la reserva en la base de datos."
+    );
+    databaseError.status = 500;
+    throw databaseError;
+  }
+};
+
+export const deleteBooking = async (id: string): Promise<Object> => {
+  try {
+    await executeQuery(`DELETE FROM bookings WHERE id = ?`, [id]);
+    return { message: "Reserva eliminada con exito" };
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

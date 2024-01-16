@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const bookings: BookingModel[] = await getBookings();
+    const bookings = await getBookings();
     res.json({ data: bookings });
   } catch (error) {
     next(error);
@@ -21,8 +21,8 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const _id = req.params.id;
-    const booking = await getBooking(_id);
+    const id = req.params.id;
+    const booking = await getBooking(id);
     res.json({ data: booking });
   } catch (error) {
     next(error);
@@ -31,8 +31,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log(req.body)
-    const booking = await postBooking(req.body);
+    const booking = await postBooking();
     res.json({ data: booking });
   } catch (error) {
     next(error);
@@ -52,8 +51,8 @@ router.delete(
   "/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const _id = req.params.id;
-      const booking = await deleteBooking(_id);
+      const id = req.params.id;
+      const booking = await deleteBooking(id);
       res.json({ data: booking });
     } catch (error) {
       next(error);

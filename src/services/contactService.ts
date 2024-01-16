@@ -1,6 +1,9 @@
 import { executeQuery } from "../config/sql";
 import { ContactModel, contactSchema } from "../models/contactModel";
-import { generateFakeContact, generateTableContacts } from "../seeds/contactsSeed";
+import {
+  generateFakeContact,
+  generateTableContacts,
+} from "../seeds/contactsSeed";
 
 export const getContacts = async () => {
   try {
@@ -40,11 +43,13 @@ export const postContact = async (): Promise<void> => {
       generateTableContacts();
     } else {
       const fakeContact = generateFakeContact();
+      const fakeContactsKeys = Object.keys(fakeContact).join(", ");
+      const fakeContactsValues = Object.values(fakeContact)
+        .map(() => `?`)
+        .join(", ");
+
       await executeQuery(
-        `
-        INSERT INTO contacts (photo, date, hour, name, last_name, email, telephone, archived, review)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `,
+        `INSERT INTO contacts (${fakeContactsKeys}) VALUES (${fakeContactsValues})`,
         Object.values(fakeContact)
       );
     }
@@ -82,12 +87,10 @@ export const putContact = async (body: any): Promise<void> => {
   }
 };
 
-export const deleteContact = async (
-  id: string
-): Promise<ContactModel | null> => {
+export const deleteContact = async (id: string): Promise<Object> => {
   try {
     await executeQuery(`DELETE FROM contacts WHERE id = ?`, [id]);
-    return null;
+    return { message: "Contacto eliminado con exito" };
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

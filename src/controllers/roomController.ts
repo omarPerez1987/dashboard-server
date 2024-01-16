@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const rooms: RoomModel[] = await getRooms();
+    const rooms = await getRooms();
     res.json({ data: rooms });
   } catch (error) {
     next(error);
@@ -20,8 +20,8 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const _id = req.params.id;
-    const room = await getRoom(_id);
+    const id = req.params.id;
+    const room = await getRoom(id);
     res.json({ data: room });
   } catch (error) {
     next(error);
@@ -30,7 +30,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const room = await postRoom(req.body);
+    const room = await postRoom();
     res.json({ data: room });
   } catch (error) {
     next(error);
@@ -48,8 +48,8 @@ router.put("/", async (req: Request, res: Response, next: NextFunction) => {
 
 router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const _id = req.params.id
-    const room = await deleteRoom(_id);
+    const id = req.params.id
+    const room = await deleteRoom(id);
     res.json({ data: room });
   } catch (error) {
     next(error);

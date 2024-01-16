@@ -39,11 +39,13 @@ export const postUser = async (): Promise<void> => {
       generateTableUser();
     } else {
       const fakeUser = generateFakeUser();
+      const fakeUserKeys = Object.keys(fakeUser).join(", ");
+      const fakeUserValues = Object.values(fakeUser)
+        .map(() => `?`)
+        .join(", ");
+
       await executeQuery(
-        `
-        INSERT INTO users (photo, name, email, phone, description, status, startDate, position, password)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `,
+        `INSERT INTO users (${fakeUserKeys}) VALUES (${fakeUserValues})`,
         Object.values(fakeUser)
       );
     }
@@ -81,10 +83,10 @@ export const putUser = async (body: any): Promise<void> => {
   }
 };
 
-export const deleteUser = async (id: string): Promise<UserModel | null> => {
+export const deleteUser = async (id: string): Promise<Object> => {
   try {
     await executeQuery(`DELETE FROM users WHERE id = ?`, [id]);
-    return null;
+    return {message: "Usuario eliminado con exito"};
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

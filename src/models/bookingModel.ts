@@ -10,9 +10,8 @@ export interface BookingModel {
   checkout: string;
   checkoutTime: string;
   notes: string;
-  idRoom: string;
+  idRoom: number | unknown;
   check: string;
-  dataRoom?: RoomModel | null
 }
 
 export const bookingSchema = Joi.object({

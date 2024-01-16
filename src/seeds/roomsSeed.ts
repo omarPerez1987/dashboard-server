@@ -11,7 +11,7 @@ export const generateTableRooms = async () => {
     photo VARCHAR(255),
     room VARCHAR(50),
     bed VARCHAR(50),
-    facilities TEXT,
+    facilities JSON,
     description TEXT,
     price DECIMAL(10, 2),
     discount INT,
@@ -20,6 +20,8 @@ export const generateTableRooms = async () => {
   )
 `);
 }
+
+
 
 
 export const generateFakeRoom = (): RoomModel => {

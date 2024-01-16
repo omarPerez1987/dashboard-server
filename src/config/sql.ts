@@ -13,7 +13,7 @@ export const connectionSQL = async () => {
       host: SQL_HOST,
       user: SQL_USER,
       password: SQL_PASSWORD,
-      database: SQL_DATABASE
+      database: SQL_DATABASE,
     });
 
     console.log("Conexión a MariaDB establecida correctamente");
@@ -26,9 +26,5 @@ export const connectionSQL = async () => {
 
 export const executeQuery = async (query: string, params?: any[]) => {
   const connection = await connectionSQL();
-  try {
-    return await connection.execute(query, params);
-  } finally {
-    connection.end();
-  }
+  return await connection.execute(query, params);
 };
