@@ -7,9 +7,9 @@ export const getBookings = async (): Promise<BookingModel[]> => {
     const dataBookings = await BookingSchema.find().exec();
     const dataRooms = await RoomSchema.find().exec();
 
-    const bookingsWithRooms: BookingModel[] = dataBookings.map((booking) => {
+    const bookingsWithRooms: BookingModel[] = dataBookings.map((booking:any) => {
       const room = dataRooms.find(
-        (room) => room._id.toString() === booking.idRoom.toString()
+        (room:any) => room._id.toString() === booking.idRoom.toString()
       );
 
       const bookingWithRoom: BookingModel = {
@@ -37,9 +37,9 @@ export const getBooking = async (_id: string) => {
     const dataRooms = await RoomSchema.find().exec();
     
     const searchIdRoom = () => {
-      let result: BookingModel | null = null;
+      let result: any;
 
-      dataRooms.forEach((room) => {
+      dataRooms.forEach((room:any) => {
         if (room._id.toString() === dataOneBooking?.idRoom) {
           result = {
             ...dataOneBooking?.toObject(),
