@@ -11,7 +11,7 @@ export const getBookings = async () => {
     const [results, fields] = await executeQuery(`
       SELECT bookings.*, rooms.*
       FROM bookings
-      INNER JOIN rooms ON bookings.idRoom = rooms.id
+      JOIN rooms ON bookings.idRoom = rooms.id
     `);
     return results;
   } catch (error) {
