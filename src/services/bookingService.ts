@@ -26,12 +26,15 @@ export const getBookings = async () => {
 
 export const getBooking = async (id: string) => {
   try {
-    const [rows]: any = await executeQuery(`
+    const [rows]: any = await executeQuery(
+      `
       SELECT bookings.*, rooms.*
       FROM bookings
       INNER JOIN rooms ON bookings.idRoom = rooms.id
       WHERE bookings.id = ?
-    `, [id]);
+    `,
+      [id]
+    );
     return rows;
   } catch (error) {
     console.log(error);

@@ -1,6 +1,6 @@
 import { executeQuery } from "../config/sql";
 import { UserModel, userSchema } from "../models/userModel";
-import { generateFakeUser, generateTableUser } from "../seeds/usersSeed";
+import { generateFakeUser, generateTableUsers } from "../seeds/usersSeed";
 
 export const getUsers = async () => {
   try {
@@ -36,7 +36,7 @@ export const postUser = async (): Promise<void> => {
   try {
     const [rows]: any = await executeQuery("SHOW TABLES LIKE 'users'");
     if (rows.length === 0) {
-      generateTableUser();
+      generateTableUsers();
     } else {
       const fakeUser = generateFakeUser();
       const fakeUserKeys = Object.keys(fakeUser).join(", ");
@@ -86,7 +86,7 @@ export const putUser = async (body: any): Promise<void> => {
 export const deleteUser = async (id: string): Promise<Object> => {
   try {
     await executeQuery(`DELETE FROM users WHERE id = ?`, [id]);
-    return {message: "Usuario eliminado con exito"};
+    return { message: "Usuario eliminado con exito" };
   } catch (error) {
     console.log(error);
     const databaseError: any = new Error(

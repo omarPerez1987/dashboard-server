@@ -2,8 +2,7 @@ import { faker } from "@faker-js/faker";
 import { UserModel } from "../models/userModel";
 import { executeQuery } from "../config/sql";
 
-
-export const generateTableUser = async () => {
+export const generateTableUsers = async () => {
   await executeQuery(`
   CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,8 +17,7 @@ export const generateTableUser = async () => {
     password VARCHAR(255)
   )
 `);
-}
-
+};
 
 export const generateFakeUser = (): UserModel => {
   return {
