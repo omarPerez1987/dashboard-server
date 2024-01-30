@@ -1,5 +1,5 @@
 import express, { Express } from "express";
-import cors from "cors"
+import cors from "cors";
 import routes from "./routes";
 import { connectMongoDb } from "./config/mongodb";
 import { errorHandler } from "./middleware/errorHandler";
