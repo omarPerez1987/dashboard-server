@@ -24,6 +24,9 @@ jobs:
       - name: Compile typescript
         run: npm run build
 
+      - name: delete project serverless
+        run: npm run remove
+
       - name: Deploy project serverless
         run: npm run deploy
       
