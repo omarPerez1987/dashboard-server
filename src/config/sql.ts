@@ -16,7 +16,7 @@ export const connectionSQL = async () => {
       database: SQL_DATABASE,
     });
 
-    console.log("Conexión a MariaDB establecida correctamente");
+    console.log("Conexión a SQL establecida correctamente");
     return connection;
   } catch (error) {
     console.error("Error al conectar a MariaDB:", error);
