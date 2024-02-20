@@ -1,0 +1,13 @@
+service: my-service
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  myLambdaFunction:
+    handler: lambda.handler
+    events:
+      - s3:
+          bucket: arn:aws:s3:::dashboard-server-s3
+          event: s3:ObjectCreated:*
