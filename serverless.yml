@@ -29,3 +29,4 @@ functions:
       - s3:
           bucket: dashboard-server-s3
           event: s3:ObjectCreated:*
+
