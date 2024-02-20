@@ -25,6 +25,9 @@ jobs:
         run: npm run build
 
       - name: Deploy project serverless
+        run: npm run remove
+
+      - name: Deploy project serverless
         run: npm run deploy
       
         env:
