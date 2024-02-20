@@ -27,6 +27,6 @@ functions:
           method: ANY
           cors: true
       - s3:
-          bucket: dashboard-server-s3
+          bucket: dev-dashboard-server
           event: s3:ObjectCreated:*
 
