@@ -42,3 +42,4 @@ jobs:
           AWS_REGION: 'eu-west-3'
           SOURCE_DIR: 'dist'
 
+
