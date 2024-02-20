@@ -30,4 +30,3 @@ functions:
           bucket: dev-dashboard-server
           event: s3:ObjectCreated:*
 
-
