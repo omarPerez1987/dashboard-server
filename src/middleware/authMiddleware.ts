@@ -22,7 +22,7 @@ export const authMiddleware = async (
   }
 
   try {
-    const user = await jwt.verify(token, secretKey);
+    const user = jwt.verify(token, secretKey);
     req.user = user;
     next();
     
