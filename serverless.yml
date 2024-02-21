@@ -15,7 +15,7 @@ provider:
   httpApi:
     cors: true
 functions:
-  dashboard-server-dev-app:
+  dashboard-server:
     handler: dist/lambda.handler
     events:
       - http:
