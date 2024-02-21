@@ -39,8 +39,8 @@ jobs:
         run: npm run deploy
       
         env:
-          ADMIN_EMAIL: test@test.com
-          ADMIN_PASSWORD: 9999
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           CLUSTER_DB: ${{ secrets.CLUSTER_DB }}
           COLLECTION_DB: ${{ secrets.COLLECTION_DB }}
           PASSWORD_DB: ${{ secrets.PASSWORD_DB }}
