@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Compile typescript
-        run: npm run build
+        run: SECRET_KEY=${{ secrets.SECRET_KEY }}npm run build
 
       - name: Deploy project serverless
         run: npm run deploy
