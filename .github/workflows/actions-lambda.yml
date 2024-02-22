@@ -20,6 +20,16 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      
+        environment:
+            ADMIN_EMAIL: '${ADMIN_EMAIL}'
+            ADMIN_PASSWORD: '${ADMIN_PASSWORD}'
+            SECRET_KEY: '${SECRET_KEY}'
+            CLUSTER_DB: '${CLUSTER_DB}'
+            COLLECTION_DB: '${COLLECTION_DB}'
+            PASSWORD_DB: '${PASSWORD_DB}'
+            USER_DB: '${USER_DB}'
+            
 
       - name: Compile typescript
         run: npm run build
