@@ -21,17 +21,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # - name: Make envfile
-      #   uses: SpicyPizza/create-envfile@v2.0
-      #   with:
-      #     ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
-      #     ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-      #     CLUSTER_DB: ${{ secrets.CLUSTER_DB }}
-      #     COLLECTION_DB: ${{ secrets.COLLECTION_DB }}
-      #     PASSWORD_DB: ${{ secrets.PASSWORD_DB }}
-      #     USER_DB: ${{ secrets.USER_DB }}
-      #     file_name: .env
-
       - name: Compile typescript
         run: npm run build
 
