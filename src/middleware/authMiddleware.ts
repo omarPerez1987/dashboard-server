@@ -3,8 +3,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-// const secretKey = process.env.SECRET_KEY || "undefined";
-const secretKey = "a5ee4d7de630796df53a3c81e0f84ace668edff2d430491382b9064161ec37dea0d5bda76c6c8591a640d5df4c2eefd8d78ac2f39d5a099942589a4a133c3d7b"
+const secretKey = process.env.SECRET_KEY || "undefined";
 
 interface AuthenticatedRequest extends Request {
   user?: any;
