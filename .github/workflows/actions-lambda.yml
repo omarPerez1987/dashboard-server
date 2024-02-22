@@ -22,10 +22,10 @@ jobs:
         run: npm install
 
       - name: Compile typescript
-        run: SECRET_KEY=${{ secrets.SECRET_KEY }}npm run build
+        run: npm run build
 
       - name: Deploy project serverless
-        run: npm run deploy
+        run: SECRET_KEY=${{ secrets.SECRET_KEY }}npm run deploy
       
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
