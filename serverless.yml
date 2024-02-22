@@ -1,17 +1,24 @@
 service: dashboard-server
+
 frameworkVersion: "3"
+
+plugins:
+  - serverless-dotenv-plugin
+
 package:
   patterns:
     - "!./**"
     - "package.json"
     - "node_modules/**"
     - "dist/**"
+
 provider:
   name: aws
   region: eu-west-3
   runtime: nodejs18.x
   httpApi:
     cors: true
+
 functions:
   dashboard-server:
     handler: dist/lambda.handler
@@ -20,7 +27,3 @@ functions:
           path: /
           method: ANY
           cors: true
-      # - http:
-      #     path: /{proxy+}
-      #     method: ANY
-      #     cors: true
