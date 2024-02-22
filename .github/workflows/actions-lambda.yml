@@ -19,16 +19,16 @@ jobs:
           node-version: '18.18.2'
 
       - name: Install dependencies
-        run: npm install
-      
-        environment:
-            ADMIN_EMAIL: '${ADMIN_EMAIL}'
-            ADMIN_PASSWORD: '${ADMIN_PASSWORD}'
-            SECRET_KEY: '${SECRET_KEY}'
-            CLUSTER_DB: '${CLUSTER_DB}'
-            COLLECTION_DB: '${COLLECTION_DB}'
-            PASSWORD_DB: '${PASSWORD_DB}'
-            USER_DB: '${USER_DB}'
+        run: |
+          npm install
+        env:
+          ADMIN_EMAIL: '${ADMIN_EMAIL}'
+          ADMIN_PASSWORD: '${ADMIN_PASSWORD}'
+          SECRET_KEY: '${SECRET_KEY}'
+          CLUSTER_DB: '${CLUSTER_DB}'
+          COLLECTION_DB: '${COLLECTION_DB}'
+          PASSWORD_DB: '${PASSWORD_DB}'
+          USER_DB: '${USER_DB}'
             
 
       - name: Compile typescript
